@@ -13,13 +13,24 @@ enum DiscColor: Int {
     case None = 0
     case White
     case Black
+    case Legal
 }
 
 class Board: NSObject, GKGameModel {
     static var width = 8
     static var height = 8
     
-    var position = [[DiscColor]]()
+    var position: [[DiscColor]] = [
+        [ .None, .None, .None, .None, .None, .None, .None, .None ],
+        [ .None, .None, .None, .None, .None, .None, .None, .None ],
+        [ .None, .None, .None, .None, .None, .None, .None, .None ],
+        [ .None, .None, .None, .White, .Black, .None, .None, .None ],
+        
+        [ .None, .None, .None, .Black, .White, .None, .None, .None ],
+        [ .None, .None, .None, .None, .None, .None, .None, .None ],
+        [ .None, .None, .None, .None, .None, .None, .None, .None ],
+        [ .None, .None, .None, .None, .None, .None, .None, .None ]
+    ]
     var currentPlayer: Player
     
     var players: [GKGameModelPlayer]? {
@@ -31,19 +42,7 @@ class Board: NSObject, GKGameModel {
     }
     
     override init() {
-        currentPlayer = Player.allPlayers[0]
-        
-        for i in 0 ..< Board.width {
-            for j in 0 ..< Board.height {
-                position[i][j] = .None
-            }
-        }
-        
-        position[4][4] = .None
-        position[5][4] = .Black
-        position[4][5] = .Black
-        position[5][5] = .White
-        
+        currentPlayer = Player.allPlayers[0]        
         super.init()
     }
     

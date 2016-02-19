@@ -13,11 +13,14 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
 
     @IBOutlet weak var boardView: UICollectionView!
     
+    var board: Board!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         boardView.delegate = self
         boardView.dataSource = self
+        board = Board()
     }
 
     override func didReceiveMemoryWarning() {
@@ -39,12 +42,23 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     // Populates the collection with cells based on the square cell template
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("square", forIndexPath: indexPath) as! BoardCell
+
+        if( board.position[indexPath.row][indexPath.section] == DiscColor.Black)
+        {
+            cell.cellImage.image = UIImage(named: "BlackPiece")
+        }
+        else if( board.position[indexPath.row][indexPath.section] == DiscColor.White)
+        {
+           cell.cellImage.image = UIImage(named: "WhitePiece")
+        }
+        
         return cell
     }
     
     // detects and processes taps in a given cell
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        print(indexPath)
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("square", forIndexPath: indexPath) as! BoardCell
+        cell.cellImage.image = UIImage(named: "WhitePiece")
     }
     
     
