@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
 
     
     @IBOutlet weak var boardView: UICollectionView!
@@ -17,13 +17,30 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        //print(board.frame)
-               
+       boardView.delegate = self
+        boardView.dataSource = self
+    
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        // 1
+        // Return the number of sections
+        return 1
+    }
+    
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 64
+    }
+    
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("square", forIndexPath: indexPath) as! BoardCell
+        return cell
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -33,7 +50,7 @@ class ViewController: UIViewController {
             
             let indexPath = NSIndexPath(forRow: Int(position.x), inSection: Int(position.y))
             let cell: UICollectionViewCell!
-            
+            print(position)
             cell = boardView.cellForItemAtIndexPath(indexPath)
             if(cell != nil)
             {
