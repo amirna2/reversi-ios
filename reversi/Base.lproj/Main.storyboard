@@ -48,8 +48,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="boardView" destination="5g0-w6-XG1" id="YEu-iy-jUv"/>
-                        <outletCollection property="collectionView" destination="5g0-w6-XG1" id="LmW-oh-IPe"/>
+                        <outlet property="boardView" destination="5g0-w6-XG1" id="2G5-C3-owY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
