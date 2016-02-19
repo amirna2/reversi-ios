@@ -57,7 +57,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     // detects and processes taps in a given cell
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("square", forIndexPath: indexPath) as! BoardCell
+        let cell = collectionView.cellForItemAtIndexPath(indexPath) as! BoardCell
         cell.cellImage.image = UIImage(named: "WhitePiece")
     }
     

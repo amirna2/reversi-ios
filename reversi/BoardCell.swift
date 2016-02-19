@@ -12,11 +12,4 @@ class BoardCell: UICollectionViewCell {
     
     @IBOutlet weak var cellImage: UIImageView!
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
 }
