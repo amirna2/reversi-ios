@@ -11,23 +11,33 @@ import Foundation
 import GameplayKit
 import UIKit
 
+let allPlayers = [Player(chip: .White), Player(chip: .Black)]
+
 class Player: NSObject, GKGameModelPlayer {
-    var chip: DiscColor
-    var color: UIColor
-    var name: String
-    var playerId: Int
+    private let id: Int
     
-    static var allPlayers = [Player(chip: .White), Player(chip: .Black)]
+    var chip: DiscColor
+    var name: String
+    
+    var playerId: Int {return id}
+    
+    // keeps track of how many moves a player can make
+    // the higher the count, the better for score evaluation
+    private var mobility: Int = 0
+    
+    var mobilityCount: Int { // counted in gameModelUpdatesForPlayer
+        get {return mobility}
+        set {mobility = newValue}
+    }
+
     
     init(chip: DiscColor) {
         self.chip = chip
-        self.playerId = chip.rawValue
+        self.id = chip.rawValue
         
         if chip == .White {
-            color = .whiteColor()
             name = "White"
         } else {
-            color = .blackColor()
             name = "Black"
         }
         
@@ -36,9 +46,11 @@ class Player: NSObject, GKGameModelPlayer {
     
     var opponent: Player {
         if chip == .White {
-            return Player.allPlayers[1]
+            return allPlayers[1]
         } else {
-            return Player.allPlayers[0]
+            return allPlayers[0]
         }
     }
+    
+    
 }

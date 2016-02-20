@@ -8,55 +8,91 @@
 
 import Foundation
 import GameplayKit
-import UIKit
 
 class Move: NSObject, GKGameModelUpdate {
-    var value: Int = 0
-    var column: Int
-    var row: Int
     
-    init(row: Int, column: Int) {
-        self.column = column
+    
+    private var score: Int = 0
+    // required by GKGameModelUpdate protocol
+    var value: Int {
+        get { return score }
+        set { score = newValue }
+    }
+    // constants to save move position
+    let row: Int
+    let col: Int
+    
+    init(row: Int, col: Int) {
         self.row = row
+        self.col = col
+        super.init()
     }
     
-    func checkLegalMove(board: Board, row: Int, col:Int, player:Player, opponent:Player, flip:Bool) -> Bool
+    static func playerHasMoves(player: Player, board: Board) -> Bool
+    {
+        for r in 0..<8 {
+            for c in 0..<8 {
+                if isLegalMove(board, row: r, col: c, player: player, flip: false)
+                {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+    
+    static func generateMovesFor(player: Player, board: Board) -> [Move]
+    {
+        var moves: [Move] = []
+        for r in 0..<8 {
+            for c in 0..<8 {
+                if isLegalMove(board, row: r, col: c, player: player, flip: false)
+                {
+                    moves.append(Move(row:r, col:c))
+                }
+            }
+        }
+        return moves
+    }
+    
+    static func isLegalMove(var board: Board, row: Int, col: Int, player:Player, flip: Bool) -> Bool
     {
         var legal: Bool = false
-        var stepCount: Int = 0
+        var i,j,stepCount: Int
         
-        if(board.position[row][col] == DiscColor.None)
+        let opponentChip: DiscColor = (player.chip == .White) ? .Black : .White
+
+        if (board.gameBoard[row][col] == DiscColor.None)
         {
-            var xdir,ydir,i,j: Int
-            for(xdir = -1; xdir < 2; xdir++)
-            {
-                for (ydir = -1; ydir < 2; ydir++)
+            return legal
+        }
+        
+        for xdir in -1..<2 {
+            for ydir in -1..<2 {
+                stepCount = 0
+                repeat
                 {
-                    stepCount = 0
-                    repeat
+                    stepCount++;
+                    i = row + stepCount*xdir; // so many steps along x-axis
+                    j = col + stepCount*ydir; // so many steps along y-axis
+                }
+                while ( (i > 0) && (i < 8) && (j > 0) && (j < 8) && (board.gameBoard[i][j] == opponentChip));
+                
+                if (( i > 0) && (i < 8) && (j > 0) && (j < 8) && (stepCount > 1) && (board.gameBoard[i][j] == player.chip) )
+                {
+                    legal = true;
+                    if (flip)
                     {
-                        stepCount++;
-                        i = row + stepCount*xdir; // so many steps along x-axis
-                        j = col + stepCount*ydir; // so many steps along y-axis
-                    }
-                    while ( (i > 0) && (i < 9) && (j > 0) && (j < 9) && (board.position[i][j] == opponent.chip));
-                    if (( i > 0) && (i < 9) && (j > 0) && (j < 9) && (stepCount > 1) && (board.position[i][j] == player.chip) )
-                    {
-                        legal = true;
-                        // Should we create a new board ?
-                        if (flip)
+                        for k in 1..<stepCount
                         {
-                            var k: Int
-                            for (k = 1; k < stepCount; k++)
-                            {
-                                board.position[row+xdir*k][col+ydir*k] = player.chip;
-                            }
-                            board.position[row][col] = player.chip;
+                            board.gameBoard[row+xdir*k][col+ydir*k] = player.chip;
                         }
+                        board.gameBoard[row][col]=player.chip;
                     }
                 }
             }
         }
         return legal
     }
+    
 }

@@ -14,7 +14,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     @IBOutlet weak var boardView: UICollectionView!
     
     var board: Board!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -58,7 +58,21 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     // detects and processes taps in a given cell
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let cell = collectionView.cellForItemAtIndexPath(indexPath) as! BoardCell
-        cell.cellImage.image = UIImage(named: "WhitePiece")
+        
+        var isLegal: Bool = false
+        
+        
+        isLegal = Move.checkLegalMove(board, row: indexPath.row,col: indexPath.section, player: board.currentPlayer, opponent: board.currentPlayer.opponent, flip: false)
+        if( isLegal )
+        {
+            if( board.currentPlayer.name == "White") {
+               cell.cellImage.image = UIImage(named: "WhitePiece")
+            }
+            else {
+               cell.cellImage.image = UIImage(named: "BlackPiece")
+            }
+        }
+        
     }
     
     
