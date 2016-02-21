@@ -14,6 +14,8 @@ class GameModel: NSObject, GKGameModel {
     var board = Board()
     var currentPlayer = allPlayers[0] // human, white
     
+    let GKGameModelMaxScore: Int = 190
+    let GKGameModelMinScore: Int = -190
     
     // players is required by GKGameModel protocol
     var players: [GKGameModelPlayer]? {
@@ -29,7 +31,7 @@ class GameModel: NSObject, GKGameModel {
     func applyGameModelUpdate(gameModelUpdate: GKGameModelUpdate) {
         let move = gameModelUpdate as! Move
         board[move.row,move.col] = currentPlayer.chip
-        flipCells(move.row, col: move.col)
+        flipCells(move.row, move.col)
         if Move.playerHasMoves(currentPlayer.opponent, board: self.board) {
             currentPlayer = currentPlayer.opponent
         }
@@ -61,9 +63,32 @@ class GameModel: NSObject, GKGameModel {
         return moves
     }
     
-    let GKGameModelMaxScore: Int = 190
-    let GKGameModelMinScore: Int = -190
+
     
+    func evaluation(board: Board, player: Player ) -> Int
+    {
+        
+        var s1, s2, i, j: Int
+        
+        s1=0
+        s2=0
+        
+        for( i=0; i < 8; i++ )
+        {
+            for( j=0; j < 8; j++)
+            {
+                if( board.gameBoard[i][j] == player.opponent.chip ) {
+                    s1 += boardVal[i][j]
+                }
+                else if( board.gameBoard[i][j] == player.chip ) {
+                    s2 += boardVal[i][j]
+                }
+            }
+        }
+        return s2-s1;
+    }//end Evaluation
+    
+
     // scoreForPlayer is required by GKGameModel protocol
     func scoreForPlayer(player: GKGameModelPlayer) -> Int {
         let player = player as! Player
@@ -73,7 +98,7 @@ class GameModel: NSObject, GKGameModel {
         // 1. start with mobility bonus
         playerScore = player.mobilityCount*3
         // 2. Static board evaluation
-        playerScore = GameEngine.evaluation(self.board, player: player)
+        playerScore = evaluation(self.board, player: player)
         // 3. Adjust for number of Discs
         playerScore += numberOfDiscs(self.board,player.chip)
         playerScore -= numberOfDiscs(self.board,player.opponent.chip)
@@ -81,7 +106,7 @@ class GameModel: NSObject, GKGameModel {
         return playerScore
     }
     
-    private func flipCells(row: Int, col: Int) {
+    func flipCells(row: Int,_ col: Int) {
         Move.isLegalMove(self.board, row: row, col: col, player:currentPlayer, flip: true)
     }
     

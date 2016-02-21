@@ -16,6 +16,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     var board: Board!
     var player: Player!
     var whiteChip = DiscColor.White
+    var gameEngine = GameEngine()
     
     override func viewDidLoad() {
         super.viewDidLoad()

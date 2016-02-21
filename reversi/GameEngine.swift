@@ -6,34 +6,110 @@
 //  Copyright © 2016 Amir Nathoo. All rights reserved.
 //
 
-import Foundation
+import GameplayKit
 
 class GameEngine {
     
     private var gameModel = GameModel()
     
-    static func evaluation(board: Board, player: Player ) -> Int
-    {
+    /**
+     Populate adds a chip on the GameModel board
+     Parameters:
+     - color: The disc color
+     - row: The board row
+     - col: The board column
+    */
+    private func addChip(color: DiscColor, row: Int, column: Int) {
+        gameModel.board[row,column] = color
+    }
     
-        var s1, s2, i, j: Int
-
-        s1=0
-        s2=0
-        
-        for( i=0; i < 8; i++ )
+    private func aiMove()
+    {
+        let strategist = GKMinmaxStrategist()
+        strategist.gameModel = gameModel
+        strategist.maxLookAheadDepth = 6
+        let delay = 1.0
+        let time = dispatch_time(DISPATCH_TIME_NOW,
+            Int64(delay*Double(NSEC_PER_SEC)))
+       
+        let mQueue = dispatch_get_main_queue()
+        let cQueue = dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)
+        dispatch_after(time, cQueue,
         {
-            for( j=0; j < 8; j++)
+            let move = strategist.bestMoveForActivePlayer() as! Move
+            dispatch_async(mQueue, { self.makeMove(move.row, move.col) } )
+        })
+    }
+    
+    private func makeMove(row: Int,_ col: Int) {
+        addChip(gameModel.currentPlayer.chip, row: row, column: col)
+        gameModel.flipCells(row, col)
+        //let white = numberOfDiscs(gameModel.board, .White)
+        //let black = numberOfDiscs(gameModel.board, .Black)
+        
+        gameModel.currentPlayer = gameModel.currentPlayer.opponent
+        
+        if gameIsFinished() {
+            return
+        }
+        
+        if Move.playerHasMoves(gameModel.currentPlayer, board: gameModel.board ) {
+            if gameModel.currentPlayer == allPlayers[0] {
+                return // wait for human move
+            } else {
+                aiMove() // let AI work
+            }
+        } else { // player must pass
+            
+            // TODO
+        }
+    }
+    
+    
+    func gameIsFinished() -> Bool {
+        if Move.playerHasMoves(gameModel.currentPlayer,board: gameModel.board) ||
+            Move.playerHasMoves(gameModel.currentPlayer.opponent, board: gameModel.board )
+        {
+            return false
+        }
+        return true
+    }
+    
+    func play(row: Int,_ col: Int)
+    {
+        if gameIsFinished()
+        {
+            return
+        }
+        
+        gameModel.currentPlayer = gameModel.currentPlayer.opponent
+        
+        if gameModel.currentPlayer == allPlayers[1]
+        {
+            aiMove() // let AI work
+        }
+        else
+        {
+            if Move.isLegalMove(gameModel.board, row: row, col: col, player:gameModel.currentPlayer, flip: false)
             {
-                if( board.gameBoard[i][j] == player.opponent.chip ) {
-                    s1 += boardVal[i][j]
-                }
-                else if( board.gameBoard[i][j] == player.chip ) {
-                    s2 += boardVal[i][j]
-                }
+                makeMove(row,col)
             }
         }
-        return s2-s1;
-    }//end Evaluation
-
-    
+        
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
