@@ -14,13 +14,17 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     @IBOutlet weak var boardView: UICollectionView!
     
     var board: Board!
-
+    var player: Player!
+    var whiteChip = DiscColor.White
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         boardView.delegate = self
         boardView.dataSource = self
         board = Board()
+        player = Player(chip: whiteChip)
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -43,11 +47,11 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("square", forIndexPath: indexPath) as! BoardCell
 
-        if( board.position[indexPath.row][indexPath.section] == DiscColor.Black)
+        if( board.gameBoard[indexPath.row][indexPath.section] == DiscColor.Black)
         {
             cell.cellImage.image = UIImage(named: "BlackPiece")
         }
-        else if( board.position[indexPath.row][indexPath.section] == DiscColor.White)
+        else if( board.gameBoard[indexPath.row][indexPath.section] == DiscColor.White)
         {
            cell.cellImage.image = UIImage(named: "WhitePiece")
         }
@@ -61,11 +65,10 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         
         var isLegal: Bool = false
         
-        
-        isLegal = Move.checkLegalMove(board, row: indexPath.row,col: indexPath.section, player: board.currentPlayer, opponent: board.currentPlayer.opponent, flip: false)
+        isLegal = Move.isLegalMove(board, row: indexPath.row, col: indexPath.section, player: player, flip: false)
         if( isLegal )
         {
-            if( board.currentPlayer.name == "White") {
+            if( player.name == "White") {
                cell.cellImage.image = UIImage(named: "WhitePiece")
             }
             else {

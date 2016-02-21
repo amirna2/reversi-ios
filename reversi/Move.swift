@@ -62,7 +62,7 @@ class Move: NSObject, GKGameModelUpdate {
         
         let opponentChip: DiscColor = (player.chip == .White) ? .Black : .White
 
-        if (board.gameBoard[row][col] == DiscColor.None)
+        if (board.gameBoard[row][col] != DiscColor.None)
         {
             return legal
         }
