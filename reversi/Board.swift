@@ -13,6 +13,7 @@ enum DiscColor: Int {
     case None = 0
     case White
     case Black
+    case Legal
 }
 
 var boardVal: [[Int]] = [

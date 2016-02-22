@@ -54,14 +54,7 @@ class GameModel: NSObject, GKGameModel {
     // gameModelUpdatesForPlayer is required by GKGameModel protocol
     func gameModelUpdatesForPlayer(player: GKGameModelPlayer) -> [GKGameModelUpdate]? {
         let player = player as! Player
-        var moves: [Move] = []
-        for i in 0..<8 {
-            for j in 0..<8 {
-                if Move.isLegalMove(self.board, x: i, y: j, color: player.chip) {
-                    moves.append(Move(x: i,y: j))
-                }
-            }
-        }
+        let moves: [Move] = Move.generateMovesFor(player, board: self.board)
         player.mobilityCount = moves.count
         if moves.isEmpty { return nil }
         return moves
@@ -71,15 +64,13 @@ class GameModel: NSObject, GKGameModel {
     
     func evaluation(board: Board, player: Player ) -> Int
     {
-        var s1, s2, i, j: Int
+        var s1, s2: Int
         
         s1=0
         s2=0
         
-        for( i=0; i < 8; i++ )
-        {
-            for( j=0; j < 8; j++)
-            {
+        for i in 0..<8 {
+            for j in 0..<8 {
                 if( board.gameBoard[i][j] == player.opponent.chip ) {
                     s1 += boardVal[i][j]
                 }

@@ -64,6 +64,14 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         return cell
     }
     
+    func showLegalMove(board: Board,_ x: Int,_ y: Int)
+    {
+        let indexPath = NSIndexPath(forRow: x, inSection: y)
+        
+        let cell = boardView.cellForItemAtIndexPath(indexPath) as! BoardCell
+        cell.cellLabel.text = "o"
+    }
+    
     func updateCell(board: Board,_ x: Int,_ y: Int)
     {
         let indexPath = NSIndexPath(forRow: x, inSection: y)
@@ -76,6 +84,15 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         if(board.gameBoard[x][y] == .Black)
         {
             cell.cellImage.image = UIImage(named: "BlackPiece")
+        }
+        
+        if(board.gameBoard[x][y] == .Legal)
+        {
+            cell.cellLabel.text = "o"
+        }
+        else
+        {
+            cell.cellLabel.text = ""
         }
     }
     // detects and processes taps in a given cell

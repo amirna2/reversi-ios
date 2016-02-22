@@ -45,12 +45,11 @@ class GameController {
         {
             let move = self.strategist.bestMoveForActivePlayer() as! Move
             dispatch_async(mQueue, {
-                print("computer moves: \(move.x) \(move.y)")
+                print("c: \(move.x),\(move.y)")
                 self.makeMove(move.x, move.y)
             } )
         })
     }
-    
     
     private func flipUIDiscs(x: Int,_ y: Int) {
         let playerColor = gameModel.currentPlayer.chip
@@ -68,7 +67,9 @@ class GameController {
 
     
     private func makeMove(x: Int,_ y: Int) {
+        
         addChip(gameModel.currentPlayer.chip, x, y)
+        
         flipUIDiscs(x, y)
         updateBoard()
         
@@ -80,11 +81,18 @@ class GameController {
         if gameIsFinished() {
             return
         }
+
+        // shows the legal moves on the board for the current player
+        let moves: [Move] = Move.generateMovesFor(gameModel.currentPlayer, board: gameModel.board)
+        for i in 0..<moves.count {
+            gameView.showLegalMove(gameModel.board, moves[i].x, moves[i].y)
+        }
         
-        print(white, black)
+        //print(white, black)
         
         if Move.playerHasMoves(gameModel.currentPlayer, board: gameModel.board ) {
             if gameModel.currentPlayer == allPlayers[0] {
+                
                 return // wait for human move
             } else {
                 aiMove() // let AI work
@@ -93,6 +101,7 @@ class GameController {
             
             mustPass = true
         }
+        
     }
     
     

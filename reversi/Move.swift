@@ -38,7 +38,6 @@ class Move: NSObject, GKGameModelUpdate {
         get { return "Move(\(x),\(y))" }
     }
     
-    // this function is used by both isValidMove and flipCells
     static func checkOneDirection(board: Board,_ color: DiscColor,_ x: Int,_ y: Int, _ dir: (x: Int,y: Int) ) -> Move? {
             
         // to check out of bounds
@@ -75,8 +74,17 @@ class Move: NSObject, GKGameModelUpdate {
         return nil
     }
 
+    /**
+     Checks if a move is valid. Returns true if it s, false otherwise.
+     Also sets the board cell state to ".Legal" if the move is valid
+     Parameters
+     - board: an instance of Board
+     - x: the x coordinate of the move
+     - y: the y coordinate of the move
+     - color: the cell state to check for
+    */
     static func isLegalMove(board: Board, x: Int, y: Int, color: DiscColor) -> Bool {
-        if board[x,y] != .None {
+        if (board[x,y] == .White || board[x,y] == .Black) {
             return false
         }
         for dir in dirs {
@@ -99,13 +107,14 @@ class Move: NSObject, GKGameModelUpdate {
         return false
     }
     
-    static func generateMovesFor(player: Player, board: Board) -> [Move] {
+    static func generateMovesFor(player: Player, var board: Board) -> [Move] {
         var moves: [Move] = []
         for i in 0..<8 {
             for j in 0..<8 {
                 if isLegalMove(board, x: i, y: j, color: player.chip)
                 {
                     moves.append(Move(x: i, y: j))
+                    board[i,j] = .Legal
                 }
             }
         }
