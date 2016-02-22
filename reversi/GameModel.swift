@@ -30,7 +30,7 @@ class GameModel: NSObject, GKGameModel {
     // applyGameModelUpdate is required by GKGameModel protocol
     func applyGameModelUpdate(gameModelUpdate: GKGameModelUpdate) {
         let move = gameModelUpdate as! Move
-        board[move.row,move.col] = currentPlayer.chip
+        board.gameBoard[move.row][move.col] = currentPlayer.chip
         flipCells(move.row, move.col)
         if Move.playerHasMoves(currentPlayer.opponent, board: self.board) {
             currentPlayer = currentPlayer.opponent
@@ -67,7 +67,6 @@ class GameModel: NSObject, GKGameModel {
     
     func evaluation(board: Board, player: Player ) -> Int
     {
-        
         var s1, s2, i, j: Int
         
         s1=0
@@ -98,7 +97,7 @@ class GameModel: NSObject, GKGameModel {
         // 1. start with mobility bonus
         playerScore = player.mobilityCount*3
         // 2. Static board evaluation
-        playerScore = evaluation(self.board, player: player)
+        playerScore += evaluation(self.board, player: player)
         // 3. Adjust for number of Discs
         playerScore += numberOfDiscs(self.board,player.chip)
         playerScore -= numberOfDiscs(self.board,player.opponent.chip)

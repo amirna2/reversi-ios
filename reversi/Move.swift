@@ -27,6 +27,9 @@ class Move: NSObject, GKGameModelUpdate {
         self.col = col
         super.init()
     }
+    override var description: String {
+        get { return "Move(\(row),\(col))" }
+    }
     
     static func playerHasMoves(player: Player, board: Board) -> Bool
     {

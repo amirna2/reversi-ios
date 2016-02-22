@@ -7,13 +7,24 @@
 //
 
 import GameplayKit
+import UIKit
 
 class GameController {
     
     private var gameModel = GameModel()
+    private let strategist = GKMinmaxStrategist()
     
+    private var gameView: ViewController
+    private var mustPass = false
+    
+    init(view: ViewController) {
+        self.gameView = view
+        strategist.gameModel = gameModel
+        strategist.maxLookAheadDepth = 6
+    }
+
     /**
-     Populate adds a chip on the GameModel board
+     Adds a chip on the GameModel board and update the board
      Parameters:
      - color: The disc color
      - row: The board row
@@ -25,33 +36,34 @@ class GameController {
     
     private func aiMove()
     {
-        let strategist = GKMinmaxStrategist()
-        strategist.gameModel = gameModel
-        strategist.maxLookAheadDepth = 6
         let delay = 1.0
-        let time = dispatch_time(DISPATCH_TIME_NOW,
-            Int64(delay*Double(NSEC_PER_SEC)))
+        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay*Double(NSEC_PER_SEC)))
        
         let mQueue = dispatch_get_main_queue()
         let cQueue = dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)
         dispatch_after(time, cQueue,
         {
-            let move = strategist.bestMoveForActivePlayer() as! Move
+            let move = self.strategist.bestMoveForActivePlayer() as! Move
             dispatch_async(mQueue, { self.makeMove(move.row, move.col) } )
         })
     }
     
     private func makeMove(row: Int,_ col: Int) {
+        
+        
         addChip(gameModel.currentPlayer.chip, row: row, column: col)
-        gameModel.flipCells(row, col)
-        //let white = numberOfDiscs(gameModel.board, .White)
-        //let black = numberOfDiscs(gameModel.board, .Black)
+        updateBoard()
+        
+        let white = numberOfDiscs(gameModel.board, .White)
+        let black = numberOfDiscs(gameModel.board, .Black)
         
         gameModel.currentPlayer = gameModel.currentPlayer.opponent
         
         if gameIsFinished() {
             return
         }
+        
+        print(white, black)
         
         if Move.playerHasMoves(gameModel.currentPlayer, board: gameModel.board ) {
             if gameModel.currentPlayer == allPlayers[0] {
@@ -61,7 +73,7 @@ class GameController {
             }
         } else { // player must pass
             
-            // TODO
+            mustPass = true
         }
     }
     
@@ -75,27 +87,54 @@ class GameController {
         return true
     }
     
-    func play(row: Int,_ col: Int)
-    {
-        if gameIsFinished()
-        {
-            return
-        }
-        
-        gameModel.currentPlayer = gameModel.currentPlayer.opponent
-        
-        if gameModel.currentPlayer == allPlayers[1]
-        {
-            aiMove() // let AI work
-        }
-        else
-        {
-            if Move.isLegalMove(gameModel.board, row: row, col: col, player:gameModel.currentPlayer, flip: false)
-            {
-                makeMove(row,col)
+    
+    func setInitialBoard() {
+        for row in 0..<8 {
+            for col in 0..<8 {
+                switch (row,col) {
+                case (3,3),(4,4) :
+                    addChip(.White, row: row, column: col)
+                case (3,4),(4,3) :
+                    addChip(.Black, row: row, column: col)
+                default:
+                    gameModel.board.gameBoard[row][col] = DiscColor.None
+                }
             }
         }
-        
+        gameModel.currentPlayer = allPlayers[0]
+    }
+
+    
+    func updateBoard()
+    {
+        for row in 0..<8 {
+            for col in 0..<8 {
+                gameView.updateCell(gameModel.board, row, col)
+            }
+        }
+    }
+    
+    
+    /**
+     Called when the user taps on a board cell
+     Parameters:
+     - row: The board row
+     - col: The board column
+    */
+    func processCell(row: Int,_ col: Int)
+    {
+        if(mustPass)
+        {
+            gameModel.currentPlayer = gameModel.currentPlayer.opponent
+            if gameModel.currentPlayer == allPlayers[1] {
+                aiMove() // Computer to Move
+            }
+            return
+        }
+        if Move.isLegalMove(gameModel.board, row: row, col: col, player:gameModel.currentPlayer, flip: true)
+        {
+            makeMove(row,col)
+        }
     }
 }
 

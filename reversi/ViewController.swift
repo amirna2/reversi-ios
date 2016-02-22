@@ -16,7 +16,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     var board: Board!
     var player: Player!
     var whiteChip = DiscColor.White
-    var gameEngine = GameEngine()
+    var gameController: GameController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +25,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         boardView.dataSource = self
         board = Board()
         player = Player(chip: whiteChip)
-        
+        gameController = GameController(view: self)
     }
 
     override func didReceiveMemoryWarning() {
@@ -44,6 +44,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         return 8
     }
     
+    
     // Populates the collection with cells based on the square cell template
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("square", forIndexPath: indexPath) as! BoardCell
@@ -60,22 +61,26 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         return cell
     }
     
+    func updateCell(board: Board,_ row: Int,_ section: Int)
+    {
+        let indexPath = NSIndexPath(forRow: row, inSection: section)
+        
+        let cell = boardView.cellForItemAtIndexPath(indexPath) as! BoardCell
+        if(board.gameBoard[row][section] == .White)
+        {
+            cell.cellImage.image = UIImage(named: "WhitePiece")
+        }
+        if(board.gameBoard[row][section] == .Black)
+        {
+            cell.cellImage.image = UIImage(named: "BlackPiece")
+        }
+    }
     // detects and processes taps in a given cell
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let cell = collectionView.cellForItemAtIndexPath(indexPath) as! BoardCell
+        //let cell = collectionView.cellForItemAtIndexPath(indexPath) as! BoardCell
         
-        var isLegal: Bool = false
+        gameController.processCell(indexPath.row, indexPath.section)
         
-        isLegal = Move.isLegalMove(board, row: indexPath.row, col: indexPath.section, player: player, flip: false)
-        if( isLegal )
-        {
-            if( player.name == "White") {
-               cell.cellImage.image = UIImage(named: "WhitePiece")
-            }
-            else {
-               cell.cellImage.image = UIImage(named: "BlackPiece")
-            }
-        }
         
     }
     

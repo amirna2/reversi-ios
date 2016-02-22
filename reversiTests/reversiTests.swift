@@ -21,16 +21,31 @@ class reversiTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+//    func testExample() {
+//        // This is an example of a functional test case.
+//        // Use XCTAssert and related functions to verify your tests produce the correct results.
+//    }
+//    
+//    func testPerformanceExample() {
+//        // This is an example of a performance test case.
+//        self.measureBlock {
+//            // Put the code you want to measure the time of here.
+//        }
+//    }
+    
+    func testInitialBoardWhiteHasFourMoves() {
+        let board = Board()
+        
+        let whiteMoves = Move.generateMovesFor(Player(chip: .White), board: board)
+        XCTAssertEqual(whiteMoves.count, 4)
     }
     
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measureBlock {
-            // Put the code you want to measure the time of here.
-        }
+    func testOneWhiteLegalMove()
+    {
+        let board = Board()
+        let player = Player(chip: DiscColor.White)
+        let result = Move.isLegalMove(board, row: 2, col: 4, player:player, flip: true)
+        XCTAssertEqual(result, true)
+        XCTAssertEqual(board.gameBoard[3][4], DiscColor.White)
     }
-    
 }

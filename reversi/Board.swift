@@ -27,7 +27,7 @@ var boardVal: [[Int]] = [
 ]
 
 
-struct Board {
+class Board {
     
     static var numberOfRows = 8
     static var numberOfCols = 8

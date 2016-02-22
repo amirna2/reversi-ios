@@ -1,3 +1,4 @@
+/*
 //
 //  reversiUITests.swift
 //  reversiUITests
@@ -34,3 +35,4 @@ class reversiUITests: XCTestCase {
     }
     
 }
+*/
