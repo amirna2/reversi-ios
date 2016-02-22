@@ -26,6 +26,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         board = Board()
         player = Player(chip: whiteChip)
         gameController = GameController(view: self)
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -49,6 +50,8 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("square", forIndexPath: indexPath) as! BoardCell
 
+        gameController.setInitialBoard()
+        
         if( board.gameBoard[indexPath.row][indexPath.section] == DiscColor.Black)
         {
             cell.cellImage.image = UIImage(named: "BlackPiece")
@@ -61,16 +64,16 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         return cell
     }
     
-    func updateCell(board: Board,_ row: Int,_ section: Int)
+    func updateCell(board: Board,_ x: Int,_ y: Int)
     {
-        let indexPath = NSIndexPath(forRow: row, inSection: section)
+        let indexPath = NSIndexPath(forRow: x, inSection: y)
         
         let cell = boardView.cellForItemAtIndexPath(indexPath) as! BoardCell
-        if(board.gameBoard[row][section] == .White)
+        if(board.gameBoard[x][y] == .White)
         {
             cell.cellImage.image = UIImage(named: "WhitePiece")
         }
-        if(board.gameBoard[row][section] == .Black)
+        if(board.gameBoard[x][y] == .Black)
         {
             cell.cellImage.image = UIImage(named: "BlackPiece")
         }
@@ -78,10 +81,8 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     // detects and processes taps in a given cell
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         //let cell = collectionView.cellForItemAtIndexPath(indexPath) as! BoardCell
-        
-        gameController.processCell(indexPath.row, indexPath.section)
-        
-        
+        print("player moves: \(indexPath.row) \(indexPath.section)")
+        gameController.processCell(indexPath.row, y:indexPath.section)
     }
     
     

@@ -30,8 +30,8 @@ class GameModel: NSObject, GKGameModel {
     // applyGameModelUpdate is required by GKGameModel protocol
     func applyGameModelUpdate(gameModelUpdate: GKGameModelUpdate) {
         let move = gameModelUpdate as! Move
-        board.gameBoard[move.row][move.col] = currentPlayer.chip
-        flipCells(move.row, move.col)
+        board.gameBoard[move.x][move.y] = currentPlayer.chip
+        flipDiscs(move.x, move.y)
         if Move.playerHasMoves(currentPlayer.opponent, board: self.board) {
             currentPlayer = currentPlayer.opponent
         }
@@ -54,10 +54,14 @@ class GameModel: NSObject, GKGameModel {
     // gameModelUpdatesForPlayer is required by GKGameModel protocol
     func gameModelUpdatesForPlayer(player: GKGameModelPlayer) -> [GKGameModelUpdate]? {
         let player = player as! Player
-        
         var moves: [Move] = []
-        moves = Move.generateMovesFor(player, board: self.board)
-        
+        for i in 0..<8 {
+            for j in 0..<8 {
+                if Move.isLegalMove(self.board, x: i, y: j, color: player.chip) {
+                    moves.append(Move(x: i,y: j))
+                }
+            }
+        }
         player.mobilityCount = moves.count
         if moves.isEmpty { return nil }
         return moves
@@ -105,9 +109,20 @@ class GameModel: NSObject, GKGameModel {
         return playerScore
     }
     
-    func flipCells(row: Int,_ col: Int) {
-        Move.isLegalMove(self.board, row: row, col: col, player:currentPlayer, flip: true)
+    func flipDiscs(x: Int,_ y: Int) {
+        let playerColor = currentPlayer.chip
+        for dir in Move.dirs {
+            if let move = Move.checkOneDirection(self.board, playerColor, x, y, dir)
+            {   // we have find a valid move, go back and flip
+                for var nextX = (move.x - dir.x),
+                    nextY = (move.y - dir.y);
+                    (nextX != x) || (nextY != y);
+                    nextX -= dir.x, nextY -= dir.y
+                {
+                      self.board[nextX,nextY] = playerColor
+                }
+            }
+        }
     }
-    
 }
 

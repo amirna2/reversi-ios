@@ -43,12 +43,12 @@ class Board {
         [ .None, .None, .None, .None, .None, .None, .None, .None ]
     ]
     
-    subscript (row: Int, column: Int) -> DiscColor {
+    subscript (x: Int, y: Int) -> DiscColor {
         get {
-            return gameBoard[row][column]
+            return gameBoard[x][y]
         }
         set {
-            gameBoard[row][column] = newValue
+            gameBoard[x][y] = newValue
         }
     }
 }
