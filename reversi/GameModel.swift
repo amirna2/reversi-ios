@@ -31,6 +31,7 @@ class GameModel: NSObject, GKGameModel {
     func applyGameModelUpdate(gameModelUpdate: GKGameModelUpdate) {
         let move = gameModelUpdate as! Move
         board.gameBoard[move.x][move.y] = currentPlayer.chip
+        
         flipDiscs(move.x, move.y)
         if Move.playerHasMoves(currentPlayer.opponent, board: self.board) {
             currentPlayer = currentPlayer.opponent

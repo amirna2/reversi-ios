@@ -12,6 +12,8 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
 
 
     @IBOutlet weak var boardView: UICollectionView!
+    @IBOutlet weak var blackScore: UILabel!
+    @IBOutlet weak var whiteScore: UILabel!
     
     var board: Board!
     var player: Player!
@@ -69,9 +71,14 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         let indexPath = NSIndexPath(forRow: x, inSection: y)
         
         let cell = boardView.cellForItemAtIndexPath(indexPath) as! BoardCell
-        cell.cellLabel.text = "o"
+        cell.cellLabel.text = "⚬"
     }
     
+    func updateScore(playerScore: Int,_ opponentScore: Int)
+    {
+        whiteScore.text = String(playerScore)
+        blackScore.text = String(opponentScore)
+    }
     func updateCell(board: Board,_ x: Int,_ y: Int)
     {
         let indexPath = NSIndexPath(forRow: x, inSection: y)
@@ -97,9 +104,12 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
     // detects and processes taps in a given cell
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        //let cell = collectionView.cellForItemAtIndexPath(indexPath) as! BoardCell
-        print("player moves: \(indexPath.row) \(indexPath.section)")
-        gameController.processCell(indexPath.row, y:indexPath.section)
+        
+        if(gameController.activePlayer() == .White)
+        {
+            print("p: \(indexPath.row),\(indexPath.section)")
+            gameController.processCell(indexPath.row, y:indexPath.section)
+        }
     }
     
     

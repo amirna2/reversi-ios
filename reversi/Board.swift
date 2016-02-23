@@ -43,7 +43,6 @@ struct Board {
         [ .None, .None, .None, .None, .None, .None, .None, .None ],
         [ .None, .None, .None, .None, .None, .None, .None, .None ]
     ]
-    
     subscript (x: Int, y: Int) -> DiscColor {
         get {
             return gameBoard[x][y]
@@ -55,7 +54,8 @@ struct Board {
 }
 
 let numberOfDiscs = { (board: Board, color: DiscColor) -> Int in
-        return board.gameBoard.filter({$0 == [color]}).count
+    var count = board.gameBoard.filter({$0 == [color]}).count
+    return count
 }
 
 

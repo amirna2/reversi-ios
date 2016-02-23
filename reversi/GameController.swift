@@ -20,7 +20,7 @@ class GameController {
     init(view: ViewController) {
         self.gameView = view
         strategist.gameModel = gameModel
-        strategist.maxLookAheadDepth = 1
+        strategist.maxLookAheadDepth = 6
     }
 
     /**
@@ -32,6 +32,7 @@ class GameController {
     */
     private func addChip(color: DiscColor,_ x: Int,_ y: Int) {
         gameModel.board[x,y] = color
+        
     }
     
     private func aiMove()
@@ -60,6 +61,9 @@ class GameController {
                         nextY = move.y - dir.y; (nextX != x) || (nextY != y); nextX -= dir.x, nextY -= dir.y {
                     gameView.updateCell(gameModel.board, x, y)
                     gameModel.board[nextX,nextY] = playerColor
+                    gameModel.currentPlayer.score++
+                    gameModel.currentPlayer.opponent.score--
+                            
                 }
             }
         }
@@ -69,7 +73,7 @@ class GameController {
     private func makeMove(x: Int,_ y: Int) {
         
         addChip(gameModel.currentPlayer.chip, x, y)
-        
+        gameModel.currentPlayer.score++
         flipUIDiscs(x, y)
         updateBoard()
         
@@ -114,7 +118,6 @@ class GameController {
         return true
     }
     
-    
     func setInitialBoard() {
         for i in 0..<8 {
             for j in 0..<8 {
@@ -138,8 +141,12 @@ class GameController {
                 gameView.updateCell(gameModel.board, i, j)
             }
         }
+        gameView.updateScore(gameModel.currentPlayer.score, gameModel.currentPlayer.opponent.score)
     }
     
+    func activePlayer() -> DiscColor {
+        return gameModel.currentPlayer.chip
+    }
     
     /**
      Called when the user taps on a board cell
