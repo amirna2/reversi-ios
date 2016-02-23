@@ -42,6 +42,8 @@ class GameController {
        
         let mQueue = dispatch_get_main_queue()
         let cQueue = dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)
+        mustPass = false
+        gameView.showGameInfo("")
         dispatch_after(time, cQueue,
         {
             if (numberOfMovesLeft(self.gameModel.board) <= 20 &&
@@ -51,7 +53,7 @@ class GameController {
             }
             let move = self.strategist.bestMoveForActivePlayer() as! Move
             dispatch_async(mQueue, {
-                print("c: \(move.x),\(move.y)")
+                //print("c: \(move.x),\(move.y)")
                 self.makeMove(move.x, move.y)
             } )
         })
@@ -120,7 +122,12 @@ class GameController {
             }
         } else { // player must pass
             mustPass = true
-            gameView.showGameInfo(gameModel.currentPlayer.name + "must pass!")
+            gameView.showGameInfo(gameModel.currentPlayer.name + " must pass!")
+            // computer gets to play again if human player must pass
+            gameModel.currentPlayer = gameModel.currentPlayer.opponent
+            if gameModel.currentPlayer == allPlayers[1] {
+                aiMove() // Computer to Move
+            }
         }
         
     }
@@ -168,6 +175,7 @@ class GameController {
     func getBoardFromModel() -> Board {
         return gameModel.board
     }
+    
     /**
      Called when the user taps on a board cell
      Parameters:
@@ -179,6 +187,7 @@ class GameController {
         if(mustPass)
         {
             mustPass = false
+            gameView.showGameInfo("")
             gameModel.currentPlayer = gameModel.currentPlayer.opponent
             if gameModel.currentPlayer == allPlayers[1] {
                 aiMove() // Computer to Move
