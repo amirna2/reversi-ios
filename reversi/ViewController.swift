@@ -28,6 +28,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         board = Board()
         player = Player(chip: whiteChip)
         gameController = GameController(view: self)
+        gameController.setInitialBoard()
         
     }
 
@@ -53,12 +54,12 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("square", forIndexPath: indexPath) as! BoardCell
 
         gameController.setInitialBoard()
-        
-        if( board.gameBoard[indexPath.row][indexPath.section] == DiscColor.Black)
+        print("\(indexPath.row),\(indexPath.section)" )
+        if( gameController.getBoardFromModel()[indexPath.row,indexPath.section] == DiscColor.Black)
         {
             cell.cellImage.image = UIImage(named: "BlackPiece")
         }
-        else if( board.gameBoard[indexPath.row][indexPath.section] == DiscColor.White)
+        else if( gameController.getBoardFromModel()[indexPath.row,indexPath.section] == DiscColor.White)
         {
            cell.cellImage.image = UIImage(named: "WhitePiece")
         }
@@ -90,16 +91,16 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         let indexPath = NSIndexPath(forRow: x, inSection: y)
         
         let cell = boardView.cellForItemAtIndexPath(indexPath) as! BoardCell
-        if(board.gameBoard[x][y] == .White)
+        if(board[x,y] == .White)
         {
             cell.cellImage.image = UIImage(named: "WhitePiece")
         }
-        if(board.gameBoard[x][y] == .Black)
+        if(board[x,y] == .Black)
         {
             cell.cellImage.image = UIImage(named: "BlackPiece")
         }
         
-        if(board.gameBoard[x][y] == .Legal)
+        if(board[x,y] == .Legal)
         {
             cell.cellLabel.text = "o"
         }

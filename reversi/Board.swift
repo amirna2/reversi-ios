@@ -33,28 +33,22 @@ struct Board {
     static var numberOfRows = 8
     static var numberOfCols = 8
     
-    var gameBoard: [[DiscColor]] = [
-        [ .None, .None, .None, .None, .None, .None, .None, .None ],
-        [ .None, .None, .None, .None, .None, .None, .None, .None ],
-        [ .None, .None, .None, .None, .None, .None, .None, .None ],
-        [ .None, .None, .None, .White, .Black, .None, .None, .None ],
-        [ .None, .None, .None, .Black, .White, .None, .None, .None ],
-        [ .None, .None, .None, .None, .None, .None, .None, .None ],
-        [ .None, .None, .None, .None, .None, .None, .None, .None ],
-        [ .None, .None, .None, .None, .None, .None, .None, .None ]
-    ]
+    
+    // array to store the game board representation
+    private var gameBoard = [DiscColor](count: 64, repeatedValue: .None)
+    
     subscript (x: Int, y: Int) -> DiscColor {
         get {
-            return gameBoard[x][y]
+            return gameBoard[x*8 + y]
         }
         set {
-            gameBoard[x][y] = newValue
+            gameBoard[x*8 + y] = newValue
         }
-    }
+    }    
 }
 
 let numberOfDiscs = { (board: Board, color: DiscColor) -> Int in
-    var count = board.gameBoard.filter({$0 == [color]}).count
+    var count = board.gameBoard.filter({$0 == color}).count
     return count
 }
 

@@ -30,9 +30,10 @@ class GameModel: NSObject, GKGameModel {
     // applyGameModelUpdate is required by GKGameModel protocol
     func applyGameModelUpdate(gameModelUpdate: GKGameModelUpdate) {
         let move = gameModelUpdate as! Move
-        board.gameBoard[move.x][move.y] = currentPlayer.chip
-        
+        board[move.x,move.y] = currentPlayer.chip
         flipDiscs(move.x, move.y)
+        
+        //switch turn if oppenent has moves
         if Move.playerHasMoves(currentPlayer.opponent, board: self.board) {
             currentPlayer = currentPlayer.opponent
         }
@@ -62,7 +63,6 @@ class GameModel: NSObject, GKGameModel {
     }
     
 
-    
     func evaluation(board: Board, player: Player ) -> Int
     {
         var s1, s2: Int
@@ -72,10 +72,10 @@ class GameModel: NSObject, GKGameModel {
         
         for i in 0..<8 {
             for j in 0..<8 {
-                if( board.gameBoard[i][j] == player.opponent.chip ) {
+                if( board[i,j] == player.opponent.chip ) {
                     s1 += boardVal[i][j]
                 }
-                else if( board.gameBoard[i][j] == player.chip ) {
+                else if( board[i,j] == player.chip ) {
                     s2 += boardVal[i][j]
                 }
             }

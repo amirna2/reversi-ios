@@ -130,7 +130,7 @@ class GameController {
                 case (3,4),(4,3) :
                     addChip(.Black, i, j)
                 default:
-                    gameModel.board.gameBoard[i][j] = DiscColor.None
+                    gameModel.board[i,j] = DiscColor.None
                 }
             }
         }
@@ -151,6 +151,9 @@ class GameController {
         return gameModel.currentPlayer.chip
     }
     
+    func getBoardFromModel() -> Board {
+        return gameModel.board
+    }
     /**
      Called when the user taps on a board cell
      Parameters:
