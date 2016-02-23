@@ -10,10 +10,12 @@ import UIKit
 
 class ViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
 
+  
 
     @IBOutlet weak var boardView: UICollectionView!
     @IBOutlet weak var blackScore: UILabel!
     @IBOutlet weak var whiteScore: UILabel!
+    @IBOutlet weak var gameOver: UILabel!
     
     var board: Board!
     var player: Player!
@@ -29,6 +31,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         player = Player(chip: whiteChip)
         gameController = GameController(view: self)
         gameController.setInitialBoard()
+        gameOver.text = ""
         
     }
 
@@ -54,7 +57,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("square", forIndexPath: indexPath) as! BoardCell
 
         gameController.setInitialBoard()
-        print("\(indexPath.row),\(indexPath.section)" )
+        //print("\(indexPath.row),\(indexPath.section)" )
         if( gameController.getBoardFromModel()[indexPath.row,indexPath.section] == DiscColor.Black)
         {
             cell.cellImage.image = UIImage(named: "BlackPiece")
@@ -67,12 +70,23 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         return cell
     }
     
+    func showWinner(string: String)
+    {
+        gameOver.text = string
+    }
+    
     func showLegalMove(board: Board,_ x: Int,_ y: Int)
     {
         let indexPath = NSIndexPath(forRow: x, inSection: y)
         
         let cell = boardView.cellForItemAtIndexPath(indexPath) as! BoardCell
-        cell.cellLabel.text = "⚬"
+        if(gameController.activePlayer() == .White) {
+            cell.cellLabel.textColor = UIColor.whiteColor()
+        }
+        else {
+            cell.cellLabel.textColor = UIColor.grayColor()
+        }
+        cell.cellLabel.text = "●"
     }
     
     func updateScore(player: Player)
@@ -102,7 +116,13 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         
         if(board[x,y] == .Legal)
         {
-            cell.cellLabel.text = "o"
+            if(gameController.activePlayer() == .White) {
+                cell.cellLabel.textColor = UIColor.whiteColor()
+            }
+            else {
+                cell.cellLabel.textColor = UIColor.grayColor()
+            }
+            cell.cellLabel.text = "●"
         }
         else
         {

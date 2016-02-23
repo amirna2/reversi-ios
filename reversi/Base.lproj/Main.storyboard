@@ -72,21 +72,30 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TPg-2s-SOf" userLabel="Winner">
+                                <rect key="frame" x="84" y="426" width="153" height="32"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.21768561241610732" green="0.37322252516778526" blue="0.32048552852348988" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="n7e-J8-qTb" firstAttribute="top" secondItem="LJp-ku-gng" secondAttribute="bottom" constant="401" id="0Ha-oW-K5g"/>
                             <constraint firstItem="5g0-w6-XG1" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="1Ez-O0-deh"/>
+                            <constraint firstItem="TPg-2s-SOf" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="JdF-2u-j30"/>
                             <constraint firstItem="ksI-PW-nAw" firstAttribute="top" secondItem="LJp-ku-gng" secondAttribute="bottom" constant="401" id="Lgd-kC-C2Y"/>
                             <constraint firstItem="ksI-PW-nAw" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="20" id="g5C-BO-unM"/>
                             <constraint firstItem="5g0-w6-XG1" firstAttribute="top" secondItem="LJp-ku-gng" secondAttribute="bottom" constant="67" id="qQ6-A7-umF"/>
                             <constraint firstAttribute="trailingMargin" secondItem="n7e-J8-qTb" secondAttribute="trailing" constant="20" id="qs2-00-ePP"/>
+                            <constraint firstItem="TPg-2s-SOf" firstAttribute="top" secondItem="LJp-ku-gng" secondAttribute="bottom" constant="406" id="sja-0D-IPC"/>
                         </constraints>
                     </view>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                     <connections>
                         <outlet property="blackScore" destination="ksI-PW-nAw" id="AoK-2a-fZf"/>
                         <outlet property="boardView" destination="5g0-w6-XG1" id="2G5-C3-owY"/>
+                        <outlet property="gameOver" destination="TPg-2s-SOf" id="f0n-p0-2aN"/>
                         <outlet property="whiteScore" destination="n7e-J8-qTb" id="Myh-eA-D85"/>
                     </connections>
                 </viewController>

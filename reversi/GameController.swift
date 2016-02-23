@@ -20,7 +20,7 @@ class GameController {
     init(view: ViewController) {
         self.gameView = view
         strategist.gameModel = gameModel
-        strategist.maxLookAheadDepth = 6
+        strategist.maxLookAheadDepth = 4
     }
 
     /**
@@ -44,6 +44,11 @@ class GameController {
         let cQueue = dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)
         dispatch_after(time, cQueue,
         {
+            if (numberOfMovesLeft(self.gameModel.board) <= 20 &&
+                self.getLegalMoves().count <= 7)
+            {
+                self.strategist.maxLookAheadDepth = 8
+            }
             let move = self.strategist.bestMoveForActivePlayer() as! Move
             dispatch_async(mQueue, {
                 print("c: \(move.x),\(move.y)")
@@ -86,11 +91,22 @@ class GameController {
         gameModel.currentPlayer = gameModel.currentPlayer.opponent
         
         if gameIsFinished() {
+            //TODO: Update UI to show who won
+            if(white > black) {
+                gameView.showWinner("White Won!")
+            } else if (white < black){
+                gameView.showWinner("Black Won!")
+            } else {
+                gameView.showWinner("Game is a Tie!")
+            }
+            
             return
+            
         }
 
         // shows the legal moves on the board for the current player
         let moves: [Move] = getLegalMoves()
+        print("Legal Moves = \(gameModel.currentPlayer.name) - \(moves.count)")
         for i in 0..<moves.count {
             gameView.showLegalMove(gameModel.board, moves[i].x, moves[i].y)
         }
@@ -105,7 +121,6 @@ class GameController {
                 aiMove() // let AI work
             }
         } else { // player must pass
-            
             mustPass = true
         }
         

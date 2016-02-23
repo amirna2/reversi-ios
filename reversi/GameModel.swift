@@ -73,10 +73,10 @@ class GameModel: NSObject, GKGameModel {
         for i in 0..<8 {
             for j in 0..<8 {
                 if( board[i,j] == player.opponent.chip ) {
-                    s1 += boardVal[i][j]
+                    s1 += boardVal[i*8+j]
                 }
                 else if( board[i,j] == player.chip ) {
-                    s2 += boardVal[i][j]
+                    s2 += boardVal[i*8+j]
                 }
             }
         }
