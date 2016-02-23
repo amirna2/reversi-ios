@@ -42,8 +42,8 @@ class GameController {
        
         let mQueue = dispatch_get_main_queue()
         let cQueue = dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)
-        mustPass = false
-        gameView.showGameInfo("")
+        //mustPass = false
+        //gameView.showGameInfo("")
         dispatch_after(time, cQueue,
         {
             if (numberOfMovesLeft(self.gameModel.board) <= 20 &&
@@ -68,9 +68,6 @@ class GameController {
                         nextY = move.y - dir.y; (nextX != x) || (nextY != y); nextX -= dir.x, nextY -= dir.y {
                     gameView.updateCell(gameModel.board, x, y)
                     gameModel.board[nextX,nextY] = playerColor
-                    gameModel.currentPlayer.score++
-                    gameModel.currentPlayer.opponent.score--
-                            
                 }
             }
         }
@@ -83,9 +80,10 @@ class GameController {
     private func makeMove(x: Int,_ y: Int) {
         
         addChip(gameModel.currentPlayer.chip, x, y)
-        gameModel.currentPlayer.score++
         flipUIDiscs(x, y)
         updateBoard()
+        mustPass = false
+        gameView.showGameInfo("")
         
         let white = numberOfDiscs(gameModel.board, .White)
         let black = numberOfDiscs(gameModel.board, .Black)
@@ -123,6 +121,7 @@ class GameController {
         } else { // player must pass
             mustPass = true
             gameView.showGameInfo(gameModel.currentPlayer.name + " must pass!")
+            
             // computer gets to play again if human player must pass
             gameModel.currentPlayer = gameModel.currentPlayer.opponent
             if gameModel.currentPlayer == allPlayers[1] {
@@ -165,7 +164,7 @@ class GameController {
                 gameView.updateCell(gameModel.board, i, j)
             }
         }
-        gameView.updateScore(gameModel.currentPlayer)
+        gameView.updateScore()
     }
     
     func activePlayer() -> DiscColor {
@@ -186,8 +185,8 @@ class GameController {
     {
         if(mustPass)
         {
-            mustPass = false
-            gameView.showGameInfo("")
+            //mustPass = false
+            //gameView.showGameInfo("")
             gameModel.currentPlayer = gameModel.currentPlayer.opponent
             if gameModel.currentPlayer == allPlayers[1] {
                 aiMove() // Computer to Move

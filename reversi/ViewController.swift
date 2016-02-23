@@ -89,16 +89,10 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         cell.cellLabel.text = "●"
     }
     
-    func updateScore(player: Player)
+    func updateScore()
     {
-        if(player.chip == .White) {
-            whiteScore.text = String(player.score)
-            blackScore.text = String(player.opponent.score)
-        }
-        else {
-            blackScore.text = String(player.score)
-            whiteScore.text = String(player.opponent.score)
-        }
+        whiteScore.text = String(numberOfDiscs(gameController.getBoardFromModel(), .White))
+        blackScore.text = String(numberOfDiscs(gameController.getBoardFromModel(), .Black))
     }
     func updateCell(board: Board,_ x: Int,_ y: Int)
     {
@@ -134,7 +128,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         
         if(gameController.activePlayer() == .White)
         {
-            print("p: \(indexPath.row),\(indexPath.section)")
+            //print("p: \(indexPath.row),\(indexPath.section)")
             gameController.processCell(indexPath.row, y:indexPath.section)
         }
     }
