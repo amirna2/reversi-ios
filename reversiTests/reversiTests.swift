@@ -42,10 +42,5 @@ class reversiTests: XCTestCase {
     
     func testOneWhiteLegalMove()
     {
-        let board = Board()
-        let player = Player(chip: DiscColor.White)
-        let result = Move.isLegalMove(board, x: 2, y: 4, player:player)
-        XCTAssertEqual(result, true)
-        XCTAssertEqual(board.gameBoard[3][4], DiscColor.White)
     }
 }

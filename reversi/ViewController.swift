@@ -74,10 +74,16 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         cell.cellLabel.text = "⚬"
     }
     
-    func updateScore(playerScore: Int,_ opponentScore: Int)
+    func updateScore(player: Player)
     {
-        whiteScore.text = String(playerScore)
-        blackScore.text = String(opponentScore)
+        if(player.chip == .White) {
+            whiteScore.text = String(player.score)
+            blackScore.text = String(player.opponent.score)
+        }
+        else {
+            blackScore.text = String(player.score)
+            whiteScore.text = String(player.opponent.score)
+        }
     }
     func updateCell(board: Board,_ x: Int,_ y: Int)
     {

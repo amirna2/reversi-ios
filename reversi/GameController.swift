@@ -69,6 +69,9 @@ class GameController {
         }
     }
 
+    func getLegalMoves() -> [Move] {
+        return Move.generateMovesFor(gameModel.currentPlayer, board: gameModel.board)
+    }
     
     private func makeMove(x: Int,_ y: Int) {
         
@@ -87,7 +90,7 @@ class GameController {
         }
 
         // shows the legal moves on the board for the current player
-        let moves: [Move] = Move.generateMovesFor(gameModel.currentPlayer, board: gameModel.board)
+        let moves: [Move] = getLegalMoves()
         for i in 0..<moves.count {
             gameView.showLegalMove(gameModel.board, moves[i].x, moves[i].y)
         }
@@ -141,7 +144,7 @@ class GameController {
                 gameView.updateCell(gameModel.board, i, j)
             }
         }
-        gameView.updateScore(gameModel.currentPlayer.score, gameModel.currentPlayer.opponent.score)
+        gameView.updateScore(gameModel.currentPlayer)
     }
     
     func activePlayer() -> DiscColor {
