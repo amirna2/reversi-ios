@@ -15,7 +15,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     @IBOutlet weak var boardView: UICollectionView!
     @IBOutlet weak var blackScore: UILabel!
     @IBOutlet weak var whiteScore: UILabel!
-    @IBOutlet weak var gameOver: UILabel!
+    @IBOutlet weak var gameInfo: UILabel!
     
     var board: Board!
     var player: Player!
@@ -31,7 +31,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         player = Player(chip: whiteChip)
         gameController = GameController(view: self)
         gameController.setInitialBoard()
-        gameOver.text = ""
+        gameInfo.text = ""
         
     }
 
@@ -70,9 +70,9 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         return cell
     }
     
-    func showWinner(string: String)
+    func showGameInfo(string: String)
     {
-        gameOver.text = string
+        gameInfo.text = string
     }
     
     func showLegalMove(board: Board,_ x: Int,_ y: Int)

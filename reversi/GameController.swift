@@ -92,36 +92,35 @@ class GameController {
         
         if gameIsFinished() {
             //TODO: Update UI to show who won
-            if(white > black) {
-                gameView.showWinner("White Won!")
-            } else if (white < black){
-                gameView.showWinner("Black Won!")
-            } else {
-                gameView.showWinner("Game is a Tie!")
+            var text: String
+            switch (white-black) {
+              case 1...64:
+                text = "White Won!"
+              case 0:
+                text = "Draw!"
+              default:
+                text = "Black Won!"
             }
+            gameView.showGameInfo(text)
             
             return
-            
         }
 
         // shows the legal moves on the board for the current player
         let moves: [Move] = getLegalMoves()
-        print("Legal Moves = \(gameModel.currentPlayer.name) - \(moves.count)")
         for i in 0..<moves.count {
             gameView.showLegalMove(gameModel.board, moves[i].x, moves[i].y)
         }
         
-        //print(white, black)
-        
         if Move.playerHasMoves(gameModel.currentPlayer, board: gameModel.board ) {
             if gameModel.currentPlayer == allPlayers[0] {
-                
-                return // wait for human move
+                return // Wait for Human turn
             } else {
-                aiMove() // let AI work
+                aiMove() // AI plays
             }
         } else { // player must pass
             mustPass = true
+            gameView.showGameInfo(gameModel.currentPlayer.name + "must pass!")
         }
         
     }
@@ -179,6 +178,7 @@ class GameController {
     {
         if(mustPass)
         {
+            mustPass = false
             gameModel.currentPlayer = gameModel.currentPlayer.opponent
             if gameModel.currentPlayer == allPlayers[1] {
                 aiMove() // Computer to Move

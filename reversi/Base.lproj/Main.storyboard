@@ -95,7 +95,7 @@
                     <connections>
                         <outlet property="blackScore" destination="ksI-PW-nAw" id="AoK-2a-fZf"/>
                         <outlet property="boardView" destination="5g0-w6-XG1" id="2G5-C3-owY"/>
-                        <outlet property="gameOver" destination="TPg-2s-SOf" id="f0n-p0-2aN"/>
+                        <outlet property="gameInfo" destination="TPg-2s-SOf" id="CxX-b4-8z6"/>
                         <outlet property="whiteScore" destination="n7e-J8-qTb" id="Myh-eA-D85"/>
                     </connections>
                 </viewController>
