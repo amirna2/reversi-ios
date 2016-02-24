@@ -96,8 +96,11 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         case 2:
             gameInfo.text = "Black Won!"
         case 3:
-            
-            gameInfo.text = gameController.activePlayer() + "must pass!"
+            if(gameController.activePlayerColor() == .White) {
+                gameInfo.text = "White must pass!"
+            } else {
+                gameInfo.text = "Black must pass!"
+            }
         default:
             gameInfo.text = ""
         }

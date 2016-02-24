@@ -122,7 +122,7 @@ class GameController {
             
             // computer gets to play again if human player must pass
             gameModel.currentPlayer = gameModel.currentPlayer.opponent
-            if gameModel.currentPlayer == allPlayers[1] {
+            if gameModel.currentPlayer.name == "AI" {
                 aiMove() // Computer to Move
             }
         }
