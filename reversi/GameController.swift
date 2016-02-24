@@ -42,12 +42,10 @@ class GameController {
        
         let mQueue = dispatch_get_main_queue()
         let cQueue = dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)
-        //mustPass = false
-        //gameView.showGameInfo("")
         dispatch_after(time, cQueue,
         {
             if (numberOfMovesLeft(self.gameModel.board) <= 20 &&
-                self.getLegalMoves().count <= 7)
+                self.getLegalMoves(self.gameModel.currentPlayer).count <= 7)
             {
                 self.strategist.maxLookAheadDepth = 8
             }
@@ -73,8 +71,8 @@ class GameController {
         }
     }
 
-    func getLegalMoves() -> [Move] {
-        return Move.generateMovesFor(gameModel.currentPlayer, board: gameModel.board)
+    func getLegalMoves(player: Player) -> [Move] {
+        return Move.generateMovesFor(player, board: gameModel.board)
     }
     
     private func makeMove(x: Int,_ y: Int) {
@@ -83,7 +81,7 @@ class GameController {
         flipUIDiscs(x, y)
         updateBoard()
         mustPass = false
-        gameView.showGameInfo("")
+        gameView.showGameInfo(-1)
         
         let white = numberOfDiscs(gameModel.board, .White)
         let black = numberOfDiscs(gameModel.board, .Black)
@@ -92,35 +90,35 @@ class GameController {
         
         if gameIsFinished() {
             //TODO: Update UI to show who won
-            var text: String
+            var gameState: Int
             switch (white-black) {
               case 1...64:
-                text = "White Won!"
+                gameState = 1 // White Won
               case 0:
-                text = "Draw!"
+                gameState = 0 // Draw
               default:
-                text = "Black Won!"
+                gameState = 2 // Black Won
             }
-            gameView.showGameInfo(text)
+            gameView.showGameInfo(gameState)
             
             return
         }
 
         // shows the legal moves on the board for the current player
-        let moves: [Move] = getLegalMoves()
+        let moves: [Move] = getLegalMoves(gameModel.currentPlayer)
         for i in 0..<moves.count {
             gameView.showLegalMove(gameModel.board, moves[i].x, moves[i].y)
         }
         
         if Move.playerHasMoves(gameModel.currentPlayer, board: gameModel.board ) {
-            if gameModel.currentPlayer == allPlayers[0] {
+            if gameModel.currentPlayer.name == "HUMAN" {
                 return // Wait for Human turn
             } else {
                 aiMove() // AI plays
             }
         } else { // player must pass
             mustPass = true
-            gameView.showGameInfo(gameModel.currentPlayer.name + " must pass!")
+            gameView.showGameInfo(3)
             
             // computer gets to play again if human player must pass
             gameModel.currentPlayer = gameModel.currentPlayer.opponent
@@ -167,8 +165,35 @@ class GameController {
         gameView.updateScore()
     }
     
-    func activePlayer() -> DiscColor {
+    func activePlayer() -> String {
+        return gameModel.currentPlayer.name
+    }
+    func activePlayerColor() -> DiscColor {
         return gameModel.currentPlayer.chip
+    }
+    func startPlayingAs(player: DiscColor)
+    {
+        // shows the legal moves on the board for the current player
+        let moves: [Move] = getLegalMoves(gameModel.currentPlayer)
+        for i in 0..<moves.count {
+            gameView.showLegalMove(gameModel.board, moves[i].x, moves[i].y)
+        }
+
+        // Let computer play first as white
+        // If player wants to play first, just wait for a tap on a board cell
+        if(player == .Black)
+        {
+            gameModel.currentPlayer.name = "AI"
+            gameModel.currentPlayer.opponent.name = "HUMAN"
+            aiMove()
+
+        }
+        else
+        {
+            gameModel.currentPlayer.name = "HUMAN"
+            gameModel.currentPlayer.opponent.name = "AI"
+            
+        }
     }
     
     func getBoardFromModel() -> Board {
@@ -188,7 +213,7 @@ class GameController {
             //mustPass = false
             //gameView.showGameInfo("")
             gameModel.currentPlayer = gameModel.currentPlayer.opponent
-            if gameModel.currentPlayer == allPlayers[1] {
+            if activePlayer() == "AI" {
                 aiMove() // Computer to Move
             }
             return

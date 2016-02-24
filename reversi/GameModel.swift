@@ -10,12 +10,12 @@ import GameplayKit
 
 class GameModel: NSObject, GKGameModel {
     
-    // array2D to store the game board representation
+    // 1D array to store the game board representation
     var board = Board()
-    var currentPlayer = allPlayers[0] // human, white
+    var currentPlayer = allPlayers[0] // white player first
     
-    let GKGameModelMaxScore: Int = 190
-    let GKGameModelMinScore: Int = -190
+    let GKGameModelMaxScore: Int = 1000
+    let GKGameModelMinScore: Int = -1000
     
     // players is required by GKGameModel protocol
     var players: [GKGameModelPlayer]? {

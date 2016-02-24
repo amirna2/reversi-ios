@@ -17,6 +17,26 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     @IBOutlet weak var whiteScore: UILabel!
     @IBOutlet weak var gameInfo: UILabel!
     
+    @IBOutlet weak var newgameLabel: UILabel!
+    @IBOutlet weak var blackButton: UIButton!
+    @IBOutlet weak var whiteButton: UIButton!
+    
+    @IBAction func newGameAsBlack(sender: UIButton) {
+        
+        newgameLabel.hidden = true
+        blackButton.hidden = true
+        whiteButton.hidden = true
+        gameController.startPlayingAs(.Black)
+        
+    }
+    
+    @IBAction func newGameAsWhite(sender: UIButton) {
+        newgameLabel.hidden = true
+        blackButton.hidden = true
+        whiteButton.hidden = true
+        gameController.startPlayingAs(.White)
+    }
+    
     var board: Board!
     var player: Player!
     var whiteChip = DiscColor.White
@@ -55,9 +75,6 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     // Populates the collection with cells based on the square cell template
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("square", forIndexPath: indexPath) as! BoardCell
-
-        gameController.setInitialBoard()
-        //print("\(indexPath.row),\(indexPath.section)" )
         if( gameController.getBoardFromModel()[indexPath.row,indexPath.section] == DiscColor.Black)
         {
             cell.cellImage.image = UIImage(named: "BlackPiece")
@@ -66,13 +83,27 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         {
            cell.cellImage.image = UIImage(named: "WhitePiece")
         }
-        
         return cell
     }
     
-    func showGameInfo(string: String)
+    func showGameInfo(state: Int)
     {
-        gameInfo.text = string
+        switch state {
+        case 0:
+            gameInfo.text = "Draw!"
+        case 1:
+            gameInfo.text = "White Won!"
+        case 2:
+            gameInfo.text = "Black Won!"
+        case 3:
+            
+            gameInfo.text = gameController.activePlayer() + "must pass!"
+        default:
+            gameInfo.text = ""
+        }
+        
+        //TODO: Show the New Game options again here
+        //Need to create a newGame() method to reset the board and start over
     }
     
     func showLegalMove(board: Board,_ x: Int,_ y: Int)
@@ -80,7 +111,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         let indexPath = NSIndexPath(forRow: x, inSection: y)
         
         let cell = boardView.cellForItemAtIndexPath(indexPath) as! BoardCell
-        if(gameController.activePlayer() == .White) {
+        if(gameController.activePlayerColor() == .White) {
             cell.cellLabel.textColor = UIColor.whiteColor()
         }
         else {
@@ -110,7 +141,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         
         if(board[x,y] == .Legal)
         {
-            if(gameController.activePlayer() == .White) {
+            if(gameController.activePlayerColor() == .White) {
                 cell.cellLabel.textColor = UIColor.whiteColor()
             }
             else {
@@ -126,7 +157,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     // detects and processes taps in a given cell
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         
-        if(gameController.activePlayer() == .White)
+        if(gameController.activePlayer() == "HUMAN")
         {
             //print("p: \(indexPath.row),\(indexPath.section)")
             gameController.processCell(indexPath.row, y:indexPath.section)
