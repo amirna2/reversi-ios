@@ -51,6 +51,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         player = Player(chip: whiteChip)
         gameController = GameController(view: self)
         gameController.setInitialBoard()
+        //gameController.setTestBoard()
         gameInfo.text = ""
         
     }
@@ -104,7 +105,14 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         default:
             gameInfo.text = ""
         }
-        
+//        if case 0...2 = state {
+//            newgameLabel.hidden = false
+//            blackButton.hidden = false
+//            whiteButton.hidden = false
+//            gameController.setInitialBoard()
+//            boardView.reloadData()
+//            gameController.updateBoard()
+//        }
         //TODO: Show the New Game options again here
         //Need to create a newGame() method to reset the board and start over
     }

@@ -40,7 +40,19 @@ class reversiTests: XCTestCase {
         XCTAssertEqual(whiteMoves.count, 4)
     }
     
-    func testOneWhiteLegalMove()
+    func testMustPassForAI()
     {
+        let view = ViewController()
+        let gameController = GameController(view: view)
+        var board = gameController.getBoardFromModel()
+        board[0,0] = .White
+        board[1,0] = .White
+        board[0,1] = .Black
+        board[1,1] = .Black
+        
+        gameController.startPlayingAs(.Black)
+        
+        
     }
+    
 }

@@ -9,7 +9,7 @@
         <!--Reversi-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController title="Reversi" id="BYZ-38-t0r" customClass="ViewController" customModule="reversi" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ReversiView" title="Reversi" id="BYZ-38-t0r" customClass="ViewController" customModule="reversi" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="LJp-ku-gng"/>
                         <viewControllerLayoutGuide type="bottom" id="Uu7-Re-17d"/>

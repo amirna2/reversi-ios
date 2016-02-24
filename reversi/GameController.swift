@@ -15,12 +15,11 @@ class GameController {
     private let strategist = GKMinmaxStrategist()
     
     private var gameView: ViewController
-    private var mustPass = false
     
     init(view: ViewController) {
         self.gameView = view
         strategist.gameModel = gameModel
-        strategist.maxLookAheadDepth = 4
+        strategist.maxLookAheadDepth = 1
     }
 
     /**
@@ -47,7 +46,7 @@ class GameController {
             if (numberOfMovesLeft(self.gameModel.board) <= 20 &&
                 self.getLegalMoves(self.gameModel.currentPlayer).count <= 7)
             {
-                self.strategist.maxLookAheadDepth = 8
+                self.strategist.maxLookAheadDepth = 1
             }
             let move = self.strategist.bestMoveForActivePlayer() as! Move
             dispatch_async(mQueue, {
@@ -80,7 +79,6 @@ class GameController {
         addChip(gameModel.currentPlayer.chip, x, y)
         flipUIDiscs(x, y)
         updateBoard()
-        mustPass = false
         gameView.showGameInfo(-1)
         
         let white = numberOfDiscs(gameModel.board, .White)
@@ -110,20 +108,28 @@ class GameController {
             gameView.showLegalMove(gameModel.board, moves[i].x, moves[i].y)
         }
         
-        if Move.playerHasMoves(gameModel.currentPlayer, board: gameModel.board ) {
+        //if Move.playerHasMoves(gameModel.currentPlayer, board: gameModel.board ) {
+        if (moves.count > 0) {
             if gameModel.currentPlayer.name == "HUMAN" {
                 return // Wait for Human turn
             } else {
                 aiMove() // AI plays
             }
         } else { // player must pass
-            mustPass = true
             gameView.showGameInfo(3)
             
             // computer gets to play again if human player must pass
+            // if computer must pass, this will cause processCell to be called when human player makes a move
             gameModel.currentPlayer = gameModel.currentPlayer.opponent
             if gameModel.currentPlayer.name == "AI" {
                 aiMove() // Computer to Move
+            }
+            else // show moves for human player
+            {
+                let moves: [Move] = getLegalMoves(gameModel.currentPlayer)
+                for i in 0..<moves.count {
+                    gameView.showLegalMove(gameModel.board, moves[i].x, moves[i].y)
+                }
             }
         }
         
@@ -139,6 +145,22 @@ class GameController {
         return true
     }
     
+
+    func setTestBoard() {
+        for i in 0..<8 {
+            for j in 0..<8 {
+                switch (i,j) {
+                case (0,0),(1,0) :
+                    addChip(.White, i, j)
+                case (0,1),(1,1) :
+                    addChip(.Black, i, j)
+                default:
+                    gameModel.board[i,j] = DiscColor.None
+                }
+            }
+        }
+        gameModel.currentPlayer = allPlayers[0]
+    }
     func setInitialBoard() {
         for i in 0..<8 {
             for j in 0..<8 {
@@ -208,16 +230,7 @@ class GameController {
     */
     func processCell(x: Int, y: Int)
     {
-        if(mustPass)
-        {
-            //mustPass = false
-            //gameView.showGameInfo("")
-            gameModel.currentPlayer = gameModel.currentPlayer.opponent
-            if activePlayer() == "AI" {
-                aiMove() // Computer to Move
-            }
-            return
-        }
+
         if Move.isLegalMove(gameModel.board,x: x, y: y, color:gameModel.currentPlayer.chip)
         {
             makeMove(x,y)
