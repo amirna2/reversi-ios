@@ -32,6 +32,19 @@ class OptionsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func selectAiLevel(sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex
+        {
+        case 0:
+            viewController.aiLevel = GameLevel.Easy
+        case 1:
+            viewController.aiLevel = GameLevel.Medium
+        case 2:
+            viewController.aiLevel = GameLevel.Hard
+        default:
+            break;
+        }
+    }
     @IBAction func selectPlayerSide(sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex
         {

@@ -45,7 +45,7 @@ struct Board {
     }    
 }
 
-let numberOfMovesLeft = { (board: Board ) -> Int in
+let numberOfEmptySquares = { (board: Board ) -> Int in
     var count = board.gameBoard.filter({$0 == .None}).count
     return count
 }

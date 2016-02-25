@@ -171,6 +171,9 @@
                                     <segment title="Hard"/>
                                 </segments>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <action selector="selectAiLevel:" destination="gI7-ze-Z6s" eventType="valueChanged" id="eZx-7V-U3h"/>
+                                </connections>
                             </segmentedControl>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="hJg-Hh-LgH">
                                 <rect key="frame" x="227" y="272" width="73" height="29"/>

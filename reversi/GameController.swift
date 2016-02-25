@@ -9,17 +9,39 @@
 import GameplayKit
 import UIKit
 
+struct GameLevel {
+    static let Easy = 0
+    static let Medium = 1
+    static let Hard = 2
+}
+
+struct GameStage {
+    static let Openning = 0
+    static let Middle = 1
+    static let End = 2
+}
+
 class GameController {
     
+
     private var gameModel = GameModel()
     private let strategist = GKMinmaxStrategist()
     
     private var gameView: ViewController
+
+    private var aiCurrentLevel = GameLevel.Easy
+    
+    private var aiLevels = [ [1,2,1], // Easy level : LookAheadDepth values for openning, middle and end game
+                             [3,4,5], // Medium
+                             [4,5,6]  // Hard
+                           ]
+    private var showMoves = true
+    private var playerSide = DiscColor.White
     
     init(view: ViewController) {
         self.gameView = view
         strategist.gameModel = gameModel
-        strategist.maxLookAheadDepth = 1
+        strategist.maxLookAheadDepth = aiLevels[aiCurrentLevel][GameStage.Openning]
     }
 
     /**
@@ -43,11 +65,17 @@ class GameController {
         let cQueue = dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)
         dispatch_after(time, cQueue,
         {
-            if (numberOfMovesLeft(self.gameModel.board) <= 20 &&
-                self.getLegalMoves(self.gameModel.currentPlayer).count <= 7)
-            {
-                self.strategist.maxLookAheadDepth = 1
+            switch numberOfEmptySquares(self.gameModel.board) {
+                case 45...60: //openning game
+                    self.strategist.maxLookAheadDepth = self.aiLevels[self.aiCurrentLevel][GameStage.Openning]
+                case 20...44: //middle game
+                    self.strategist.maxLookAheadDepth = self.aiLevels[self.aiCurrentLevel][GameStage.Middle]
+                case 0...19:
+                    self.strategist.maxLookAheadDepth = self.aiLevels[self.aiCurrentLevel][GameStage.End]
+                default:
+                    break;
             }
+            
             let move = self.strategist.bestMoveForActivePlayer() as! Move
             dispatch_async(mQueue, {
                 //print("c: \(move.x),\(move.y)")
@@ -193,8 +221,12 @@ class GameController {
     func activePlayerColor() -> DiscColor {
         return gameModel.currentPlayer.chip
     }
-    func startPlayingAs(player: DiscColor)
+    func startNewGame(playerSide: DiscColor,_ level: Int,_ showMoves: Bool)
     {
+        self.playerSide = playerSide
+        self.aiCurrentLevel = level
+        self.showMoves = showMoves
+        
         // shows the legal moves on the board for the current player
         let moves: [Move] = getLegalMoves(gameModel.currentPlayer)
         for i in 0..<moves.count {
@@ -203,7 +235,7 @@ class GameController {
 
         // Let computer play first as white
         // If player wants to play first, just wait for a tap on a board cell
-        if(player == .Black)
+        if(playerSide == .Black)
         {
             gameModel.currentPlayer.name = "AI"
             gameModel.currentPlayer.opponent.name = "HUMAN"

@@ -20,22 +20,27 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     var board: Board!
     var player: Player!
-    var whiteChip = DiscColor.White
     var gameController: GameController!
     var playerSide = DiscColor.White
+    var aiLevel = GameLevel.Easy
+    var showMoves = true
     
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         boardView.delegate = self
         boardView.dataSource = self
+        
+        gameInfo.text = ""
+    
         board = Board()
-        player = Player(chip: whiteChip)
+        player = Player(chip: playerSide)
         gameController = GameController(view: self)
         gameController.setInitialBoard()
         //gameController.setTestBoard()
-        gameInfo.text = ""
         
+       
     }
 
     override func didReceiveMemoryWarning() {
@@ -60,7 +65,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     
     @IBAction func startNewGame(sender: UIButton) {
-        gameController.startPlayingAs(playerSide)
+        gameController.startNewGame(playerSide, aiLevel, showMoves)
     }
     
     
