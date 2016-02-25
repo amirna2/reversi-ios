@@ -16,24 +16,17 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     @IBOutlet weak var blackScore: UILabel!
     @IBOutlet weak var whiteScore: UILabel!
     @IBOutlet weak var gameInfo: UILabel!
-    
-    @IBOutlet weak var newgameLabel: UILabel!
-    @IBOutlet weak var blackButton: UIButton!
-    @IBOutlet weak var whiteButton: UIButton!
-    
-    @IBAction func newGameAsBlack(sender: UIButton) {
-        
-        newgameLabel.hidden = true
-        blackButton.hidden = true
-        whiteButton.hidden = true
-        gameController.startPlayingAs(.Black)
-        
+   
+    @IBAction func setupGame(sender: UIButton) {
+        self.performSegueWithIdentifier("GameOptions", sender: self)
     }
     
-    @IBAction func newGameAsWhite(sender: UIButton) {
-        newgameLabel.hidden = true
-        blackButton.hidden = true
-        whiteButton.hidden = true
+    
+    func newGameAsBlack() {
+        gameController.startPlayingAs(.Black)
+    }
+    
+    func newGameAsWhite() {
         gameController.startPlayingAs(.White)
     }
     
@@ -60,7 +53,14 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if (segue.identifier == "GameOptions")
+        {
+            let OptionsVC:OptionsViewController = segue.destinationViewController as! OptionsViewController
+            let data = sender as! ViewController
+            OptionsVC.viewController = data
+        }
+    }
     
     // Returns the number of sections
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
@@ -105,16 +105,6 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         default:
             gameInfo.text = ""
         }
-//        if case 0...2 = state {
-//            newgameLabel.hidden = false
-//            blackButton.hidden = false
-//            whiteButton.hidden = false
-//            gameController.setInitialBoard()
-//            boardView.reloadData()
-//            gameController.updateBoard()
-//        }
-        //TODO: Show the New Game options again here
-        //Need to create a newGame() method to reset the board and start over
     }
     
     func showLegalMove(board: Board,_ x: Int,_ y: Int)

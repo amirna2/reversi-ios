@@ -37,7 +37,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="gI7-ze-Z6s" kind="push" id="bKI-iU-xg3"/>
+                                    <action selector="setupGame:" destination="BYZ-38-t0r" eventType="touchUpInside" id="yia-pp-W8A"/>
                                 </connections>
                             </button>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" scrollEnabled="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="5g0-w6-XG1">
@@ -115,16 +115,17 @@
                         <outlet property="newgameLabel" destination="IT6-HD-0nv" id="EgG-bg-yhG"/>
                         <outlet property="whiteButton" destination="zRh-jl-vC2" id="Epd-J6-4db"/>
                         <outlet property="whiteScore" destination="n7e-J8-qTb" id="Myh-eA-D85"/>
+                        <segue destination="gI7-ze-Z6s" kind="push" identifier="GameOptions" id="eyH-im-eLx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="428" y="383"/>
+            <point key="canvasLocation" x="434" y="363"/>
         </scene>
         <!--Options-->
         <scene sceneID="9DP-hp-YcR">
             <objects>
-                <viewController id="gI7-ze-Z6s" sceneMemberID="viewController">
+                <viewController id="gI7-ze-Z6s" customClass="OptionsViewController" customModule="reversi" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Rmz-Tb-w7l"/>
                         <viewControllerLayoutGuide type="bottom" id="G9r-pT-veR"/>
@@ -138,6 +139,7 @@
                                 <state key="normal" image="BlackPiece"/>
                                 <connections>
                                     <action selector="newGameAsBlack:" destination="BYZ-38-t0r" eventType="touchUpInside" id="hp7-2b-oPl"/>
+                                    <action selector="playAsBlack:" destination="gI7-ze-Z6s" eventType="touchUpInside" id="1Ge-Si-Vk2"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="New Game as" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IT6-HD-0nv">
@@ -151,12 +153,14 @@
                                 <state key="normal" image="WhitePiece"/>
                                 <connections>
                                     <action selector="newGameAsWhite:" destination="BYZ-38-t0r" eventType="touchUpInside" id="IhP-Ss-c0x"/>
+                                    <action selector="playAsWhite:" destination="gI7-ze-Z6s" eventType="touchUpInside" id="1vC-iA-Qby"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Options" id="vYS-DY-Imb"/>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SKC-le-P2v" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

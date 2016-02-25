@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C724E4941C7EC88900D3415C /* OptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C724E4931C7EC88900D3415C /* OptionsViewController.swift */; };
 		C758D6991C6D044B00B6083B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C758D6981C6D044B00B6083B /* AppDelegate.swift */; };
 		C758D69B1C6D044B00B6083B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C758D69A1C6D044B00B6083B /* ViewController.swift */; };
 		C758D69E1C6D044B00B6083B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C758D69C1C6D044B00B6083B /* Main.storyboard */; };
@@ -40,6 +41,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C724E4931C7EC88900D3415C /* OptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionsViewController.swift; sourceTree = "<group>"; };
 		C758D6951C6D044B00B6083B /* reversi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = reversi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C758D6981C6D044B00B6083B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C758D69A1C6D044B00B6083B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 				C778C2371C7839ED00F3596F /* GameController.swift */,
 				C7AFB45D1C6DB496001BEBF6 /* Board.swift */,
 				C758D69C1C6D044B00B6083B /* Main.storyboard */,
+				C724E4931C7EC88900D3415C /* OptionsViewController.swift */,
 				C778C2311C76FB0900F3596F /* BoardCell.swift */,
 				C758D69F1C6D044B00B6083B /* Assets.xcassets */,
 				C758D6A11C6D044B00B6083B /* LaunchScreen.storyboard */,
@@ -278,6 +281,7 @@
 				C7AFB4601C6DB747001BEBF6 /* Move.swift in Sources */,
 				C758D69B1C6D044B00B6083B /* ViewController.swift in Sources */,
 				C778C2321C76FB0900F3596F /* BoardCell.swift in Sources */,
+				C724E4941C7EC88900D3415C /* OptionsViewController.swift in Sources */,
 				C778C2381C7839ED00F3596F /* GameController.swift in Sources */,
 				C7AFB45E1C6DB496001BEBF6 /* Board.swift in Sources */,
 				C7AFB45C1C6DB3EF001BEBF6 /* Player.swift in Sources */,
