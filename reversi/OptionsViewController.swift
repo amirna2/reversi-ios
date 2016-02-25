@@ -10,10 +10,20 @@ import UIKit
 
 class OptionsViewController: UIViewController {
 
+    
+    @IBOutlet weak var playerSideControl: UISegmentedControl!
     var viewController: ViewController!
+    
     override func viewDidLoad() {
-        super.viewDidLoad()
-
+        switch viewController.playerSide
+        {
+        case DiscColor.White:
+            playerSideControl.selectedSegmentIndex = 0
+        case DiscColor.Black:
+            playerSideControl.selectedSegmentIndex = 1
+        default:
+            break;
+        }
         // Do any additional setup after loading the view.
     }
 
@@ -22,12 +32,24 @@ class OptionsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func selectPlayerSide(sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex
+        {
+        case 0:
+            viewController.playerSide = DiscColor.White
+        case 1:
+            viewController.playerSide = DiscColor.Black
+        default:
+            break; 
+        }
+    }
+    
     @IBAction func playAsBlack(sender: UIButton) {
-        viewController.newGameAsBlack()
+        viewController.playerSide = DiscColor.Black
     }
 
     @IBAction func playAsWhite(sender: UIButton) {
-        viewController.newGameAsWhite()
+        viewController.playerSide = DiscColor.White
     }
 
     /*

@@ -17,23 +17,12 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     @IBOutlet weak var whiteScore: UILabel!
     @IBOutlet weak var gameInfo: UILabel!
    
-    @IBAction func setupGame(sender: UIButton) {
-        self.performSegueWithIdentifier("GameOptions", sender: self)
-    }
-    
-    
-    func newGameAsBlack() {
-        gameController.startPlayingAs(.Black)
-    }
-    
-    func newGameAsWhite() {
-        gameController.startPlayingAs(.White)
-    }
     
     var board: Board!
     var player: Player!
     var whiteChip = DiscColor.White
     var gameController: GameController!
+    var playerSide = DiscColor.White
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,6 +42,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if (segue.identifier == "GameOptions")
         {
@@ -61,6 +51,19 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
             OptionsVC.viewController = data
         }
     }
+    
+    
+    @IBAction func setupGame(sender: UIButton) {
+        self.performSegueWithIdentifier("GameOptions", sender: self)
+    }
+    
+    
+    
+    @IBAction func startNewGame(sender: UIButton) {
+        gameController.startPlayingAs(playerSide)
+    }
+    
+    
     
     // Returns the number of sections
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
