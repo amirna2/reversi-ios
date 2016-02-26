@@ -66,6 +66,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     
     @IBAction func startNewGame(sender: UIButton) {
+        gameController.resetBoard()
         gameController.startNewGame(playerSide, aiLevel, showMoves)
     }
     
@@ -144,6 +145,8 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
 
         
     }
+    
+    
     func updateCell(board: Board,_ x: Int,_ y: Int)
     {
         let indexPath = NSIndexPath(forRow: x, inSection: y)
@@ -153,9 +156,14 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         {
             cell.cellImage.image = UIImage(named: "WhitePiece")
         }
-        if(board[x,y] == .Black)
+        else if(board[x,y] == .Black)
         {
             cell.cellImage.image = UIImage(named: "BlackPiece")
+        }
+        else
+        {
+            cell.cellImage.image = nil
+            
         }
         
         if(board[x,y] == .Legal)

@@ -216,6 +216,12 @@ class GameController {
         gameModel.currentPlayer = allPlayers[0]
     }
 
+    func resetBoard()
+    {
+        setInitialBoard()
+        updateBoard()
+    }
+    
     func updateBoard()
     {
         for i in 0..<8 {
