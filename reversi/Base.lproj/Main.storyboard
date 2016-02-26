@@ -108,7 +108,7 @@
                                     <action selector="startNewGame:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0r6-vc-7FE"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="WhitePiece" translatesAutoresizingMaskIntoConstraints="NO" id="x6F-iB-cNs">
+                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="WhitePiece" translatesAutoresizingMaskIntoConstraints="NO" id="x6F-iB-cNs">
                                 <rect key="frame" x="139" y="413" width="30" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="5yU-EN-JSb"/>

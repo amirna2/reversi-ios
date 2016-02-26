@@ -67,6 +67,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     @IBAction func startNewGame(sender: UIButton) {
         gameController.resetBoard()
+        playerTurn.hidden = false
         showGameInfo(-1)
         gameController.startNewGame(playerSide, aiLevel, showMoves)
     }
@@ -103,10 +104,13 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         switch state {
         case 0:
             gameInfo.text = "Draw!"
+            playerTurn.hidden = true
         case 1:
             gameInfo.text = "White Won!"
+            playerTurn.hidden = true
         case 2:
             gameInfo.text = "Black Won!"
+            playerTurn.hidden = true
         case 3:
             if(gameController.activePlayerColor() == .White) {
                 gameInfo.text = "White must pass!"
@@ -191,7 +195,5 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
             gameController.processCell(indexPath.row, y:indexPath.section)
         }
     }
-    
-    
 }
 
