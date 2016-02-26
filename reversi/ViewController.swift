@@ -67,6 +67,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     @IBAction func startNewGame(sender: UIButton) {
         gameController.resetBoard()
+        showGameInfo(-1)
         gameController.startNewGame(playerSide, aiLevel, showMoves)
     }
     
