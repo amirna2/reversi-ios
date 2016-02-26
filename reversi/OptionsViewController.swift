@@ -12,6 +12,11 @@ class OptionsViewController: UIViewController {
 
     
     @IBOutlet weak var playerSideControl: UISegmentedControl!
+    
+    @IBOutlet weak var aiLevel: UISegmentedControl!
+    
+    @IBOutlet weak var validMove: UISegmentedControl!
+    
     var viewController: ViewController!
     
     override func viewDidLoad() {
@@ -24,6 +29,28 @@ class OptionsViewController: UIViewController {
         default:
             break;
         }
+        
+        switch viewController.aiLevel
+        {
+        case GameLevel.Easy:
+            aiLevel.selectedSegmentIndex = 0
+        case GameLevel.Medium:
+            aiLevel.selectedSegmentIndex = 1
+        case GameLevel.Hard:
+            aiLevel.selectedSegmentIndex = 2
+            
+        default:
+            break;
+        }
+        
+        switch viewController.showMoves
+        {
+        case true:
+            validMove.selectedSegmentIndex = 0
+        case false:
+            validMove.selectedSegmentIndex = 1
+        }
+
         // Do any additional setup after loading the view.
     }
 
@@ -57,14 +84,19 @@ class OptionsViewController: UIViewController {
         }
     }
     
-    @IBAction func playAsBlack(sender: UIButton) {
-        viewController.playerSide = DiscColor.Black
-    }
+    @IBAction func showValidMoves(sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex
+        {
+        case 0:
+            viewController.showMoves = true
+        case 1:
+            viewController.showMoves = false
+        default:
+            break;
+        }
 
-    @IBAction func playAsWhite(sender: UIButton) {
-        viewController.playerSide = DiscColor.White
     }
-
+   
     /*
     // MARK: - Navigation
 

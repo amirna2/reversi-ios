@@ -102,6 +102,25 @@ class GameController {
         return Move.generateMovesFor(player, board: gameModel.board)
     }
     
+    private func showLegalMovesFor(player: Player)
+    {
+        if( self.gameView.showMoves == true )
+        {
+            // shows the legal moves on the board for the current player
+            let moves: [Move] = getLegalMoves(gameModel.currentPlayer)
+            for i in 0..<moves.count {
+                gameView.showLegalMove(gameModel.board, moves[i].x, moves[i].y)
+            }
+        }
+        if(gameModel.currentPlayer.chip == DiscColor.Black)
+        {
+            gameView.playerTurn.image = UIImage(named: "BlackPiece")
+        }
+        else
+        {
+            gameView.playerTurn.image = UIImage(named: "WhitePiece")
+        }
+    }
     private func makeMove(x: Int,_ y: Int) {
         
         addChip(gameModel.currentPlayer.chip, x, y)
@@ -115,7 +134,6 @@ class GameController {
         gameModel.currentPlayer = gameModel.currentPlayer.opponent
         
         if gameIsFinished() {
-            //TODO: Update UI to show who won
             var gameState: Int
             switch (white-black) {
               case 1...64:
@@ -130,14 +148,9 @@ class GameController {
             return
         }
 
-        // shows the legal moves on the board for the current player
-        let moves: [Move] = getLegalMoves(gameModel.currentPlayer)
-        for i in 0..<moves.count {
-            gameView.showLegalMove(gameModel.board, moves[i].x, moves[i].y)
-        }
+        showLegalMovesFor(gameModel.currentPlayer)
         
-        //if Move.playerHasMoves(gameModel.currentPlayer, board: gameModel.board ) {
-        if (moves.count > 0) {
+        if Move.playerHasMoves(gameModel.currentPlayer, board: gameModel.board ) {
             if gameModel.currentPlayer.name == "HUMAN" {
                 return // Wait for Human turn
             } else {
@@ -154,10 +167,8 @@ class GameController {
             }
             else // show moves for human player
             {
-                let moves: [Move] = getLegalMoves(gameModel.currentPlayer)
-                for i in 0..<moves.count {
-                    gameView.showLegalMove(gameModel.board, moves[i].x, moves[i].y)
-                }
+                showLegalMovesFor(gameModel.currentPlayer)
+                
             }
         }
         
@@ -228,10 +239,7 @@ class GameController {
         self.showMoves = showMoves
         
         // shows the legal moves on the board for the current player
-        let moves: [Move] = getLegalMoves(gameModel.currentPlayer)
-        for i in 0..<moves.count {
-            gameView.showLegalMove(gameModel.board, moves[i].x, moves[i].y)
-        }
+        showLegalMovesFor(gameModel.currentPlayer)
 
         // Let computer play first as white
         // If player wants to play first, just wait for a tap on a board cell
@@ -239,6 +247,7 @@ class GameController {
         {
             gameModel.currentPlayer.name = "AI"
             gameModel.currentPlayer.opponent.name = "HUMAN"
+            
             aiMove()
 
         }
@@ -246,7 +255,6 @@ class GameController {
         {
             gameModel.currentPlayer.name = "HUMAN"
             gameModel.currentPlayer.opponent.name = "AI"
-            
         }
     }
     

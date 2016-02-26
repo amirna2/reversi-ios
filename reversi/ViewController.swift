@@ -17,6 +17,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     @IBOutlet weak var whiteScore: UILabel!
     @IBOutlet weak var gameInfo: UILabel!
    
+    @IBOutlet weak var playerTurn: UIImageView!
     
     var board: Board!
     var player: Player!
@@ -124,7 +125,7 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
             cell.cellLabel.textColor = UIColor.whiteColor()
         }
         else {
-            cell.cellLabel.textColor = UIColor.grayColor()
+            cell.cellLabel.textColor = UIColor.darkGrayColor()
         }
         cell.cellLabel.text = "●"
     }
@@ -133,6 +134,15 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     {
         whiteScore.text = String(numberOfDiscs(gameController.getBoardFromModel(), .White))
         blackScore.text = String(numberOfDiscs(gameController.getBoardFromModel(), .Black))
+        
+        if(gameController.activePlayerColor() == .White) {
+           playerTurn.image = UIImage(named: "WhitePiece")
+        }
+        else {
+            playerTurn.image = UIImage(named: "BlackPiece")
+        }
+
+        
     }
     func updateCell(board: Board,_ x: Int,_ y: Int)
     {

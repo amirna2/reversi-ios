@@ -30,6 +30,16 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VX5-nj-tG9">
+                                <rect key="frame" x="210" y="518" width="70" height="30"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Options">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="setupGame:" destination="BYZ-38-t0r" eventType="touchUpInside" id="yia-pp-W8A"/>
+                                </connections>
+                            </button>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" scrollEnabled="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="5g0-w6-XG1">
                                 <rect key="frame" x="0.0" y="79" width="320" height="320"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="MaL-yP-G8n">
@@ -50,13 +60,13 @@
                                             <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DMC-zt-eWx">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DMC-zt-eWx">
                                                     <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
                                                     <accessibility key="accessibilityConfiguration">
                                                         <accessibilityTraits key="traits" image="YES" notEnabled="YES"/>
                                                     </accessibility>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lxy-Ok-lx3">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lxy-Ok-lx3">
                                                     <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -65,6 +75,16 @@
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
+                                        <constraints>
+                                            <constraint firstItem="DMC-zt-eWx" firstAttribute="leading" secondItem="lxy-Ok-lx3" secondAttribute="leading" id="1pG-Rg-bCb"/>
+                                            <constraint firstAttribute="trailing" secondItem="DMC-zt-eWx" secondAttribute="trailing" id="4vZ-1f-hcQ"/>
+                                            <constraint firstItem="lxy-Ok-lx3" firstAttribute="trailing" secondItem="DMC-zt-eWx" secondAttribute="trailing" id="QEJ-ed-J3B"/>
+                                            <constraint firstItem="DMC-zt-eWx" firstAttribute="bottom" secondItem="lxy-Ok-lx3" secondAttribute="bottom" id="RfC-XM-ED0"/>
+                                            <constraint firstAttribute="bottom" secondItem="DMC-zt-eWx" secondAttribute="bottom" id="RpI-7U-rcw"/>
+                                            <constraint firstItem="lxy-Ok-lx3" firstAttribute="top" secondItem="k7W-1h-WGI" secondAttribute="top" id="Yp9-iD-3be"/>
+                                            <constraint firstItem="lxy-Ok-lx3" firstAttribute="top" secondItem="DMC-zt-eWx" secondAttribute="top" id="e0X-Zf-esk"/>
+                                            <constraint firstItem="lxy-Ok-lx3" firstAttribute="leading" secondItem="k7W-1h-WGI" secondAttribute="leading" id="rnp-C6-ypb"/>
+                                        </constraints>
                                         <connections>
                                             <outlet property="cellImage" destination="DMC-zt-eWx" id="dxv-ug-RG1"/>
                                             <outlet property="cellLabel" destination="lxy-Ok-lx3" id="5Hd-3x-RdK"/>
@@ -88,16 +108,13 @@
                                     <action selector="startNewGame:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0r6-vc-7FE"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VX5-nj-tG9">
-                                <rect key="frame" x="210" y="518" width="70" height="30"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Options">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="setupGame:" destination="BYZ-38-t0r" eventType="touchUpInside" id="yia-pp-W8A"/>
-                                </connections>
-                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="WhitePiece" translatesAutoresizingMaskIntoConstraints="NO" id="x6F-iB-cNs">
+                                <rect key="frame" x="139" y="413" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="5yU-EN-JSb"/>
+                                    <constraint firstAttribute="width" constant="30" id="Pzk-Hb-mPs"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.094449438154697418" green="0.57132536172866821" blue="0.46552860736846924" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -108,14 +125,21 @@
                             <constraint firstItem="5g0-w6-XG1" firstAttribute="top" secondItem="LJp-ku-gng" secondAttribute="bottom" constant="15" id="HAv-Lo-eaE"/>
                             <constraint firstItem="Uu7-Re-17d" firstAttribute="top" secondItem="VX5-nj-tG9" secondAttribute="bottom" constant="20" id="Pzw-De-UDA"/>
                             <constraint firstItem="TPg-2s-SOf" firstAttribute="top" secondItem="LJp-ku-gng" secondAttribute="bottom" constant="408" id="SOC-fz-nNz"/>
+                            <constraint firstItem="x6F-iB-cNs" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Sf1-c0-fup"/>
                             <constraint firstItem="ksI-PW-nAw" firstAttribute="top" secondItem="LJp-ku-gng" secondAttribute="bottom" constant="343" id="YqP-Ca-bTf"/>
+                            <constraint firstItem="x6F-iB-cNs" firstAttribute="top" secondItem="5g0-w6-XG1" secondAttribute="bottom" constant="14" id="a5H-eY-Ggg"/>
                             <constraint firstItem="Uu7-Re-17d" firstAttribute="top" secondItem="qyo-dd-V2Q" secondAttribute="bottom" constant="20" id="blG-0n-i3v"/>
                             <constraint firstItem="Uu7-Re-17d" firstAttribute="top" secondItem="TPg-2s-SOf" secondAttribute="bottom" constant="64" id="ie3-vI-SXv"/>
+                            <constraint firstItem="TPg-2s-SOf" firstAttribute="top" secondItem="x6F-iB-cNs" secondAttribute="bottom" constant="29" id="izd-Qu-HgQ"/>
+                            <constraint firstItem="x6F-iB-cNs" firstAttribute="centerY" secondItem="ksI-PW-nAw" secondAttribute="centerY" id="kdQ-sm-W8g"/>
                             <constraint firstItem="qyo-dd-V2Q" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="20" id="lg4-pK-Hyl"/>
+                            <constraint firstItem="x6F-iB-cNs" firstAttribute="leading" secondItem="ksI-PW-nAw" secondAttribute="trailing" constant="57" id="mdw-rh-4M7"/>
                             <constraint firstItem="ksI-PW-nAw" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="20" id="ofE-B4-ldT"/>
                             <constraint firstAttribute="trailingMargin" secondItem="VX5-nj-tG9" secondAttribute="trailing" constant="20" id="rjS-3I-8Gi"/>
                             <constraint firstItem="TPg-2s-SOf" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="sGD-J8-eBU"/>
                             <constraint firstItem="5g0-w6-XG1" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="uHZ-2k-7MZ"/>
+                            <constraint firstItem="n7e-J8-qTb" firstAttribute="leading" secondItem="x6F-iB-cNs" secondAttribute="trailing" constant="69" id="xiV-m4-WKh"/>
+                            <constraint firstItem="x6F-iB-cNs" firstAttribute="centerY" secondItem="n7e-J8-qTb" secondAttribute="centerY" id="xnn-0P-AOn"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Reversi" id="1Q7-m8-0DB"/>
@@ -125,6 +149,7 @@
                         <outlet property="boardView" destination="5g0-w6-XG1" id="2G5-C3-owY"/>
                         <outlet property="gameInfo" destination="TPg-2s-SOf" id="CxX-b4-8z6"/>
                         <outlet property="newgameLabel" destination="IT6-HD-0nv" id="EgG-bg-yhG"/>
+                        <outlet property="playerTurn" destination="x6F-iB-cNs" id="ywe-XK-lAE"/>
                         <outlet property="whiteScore" destination="n7e-J8-qTb" id="Myh-eA-D85"/>
                         <segue destination="gI7-ze-Z6s" kind="push" identifier="GameOptions" id="eyH-im-eLx"/>
                     </connections>
@@ -182,6 +207,9 @@
                                     <segment title="No"/>
                                 </segments>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <action selector="showValidMoves:" destination="gI7-ze-Z6s" eventType="valueChanged" id="uOa-zU-r7u"/>
+                                </connections>
                             </segmentedControl>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="REVERSI" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y4b-ce-33X">
                                 <rect key="frame" x="20" y="72" width="280" height="48"/>
@@ -212,7 +240,9 @@
                     <navigationItem key="navigationItem" title="Options" id="vYS-DY-Imb"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                     <connections>
+                        <outlet property="aiLevel" destination="yrS-Lf-fOw" id="zpG-5I-t3I"/>
                         <outlet property="playerSideControl" destination="e1x-rY-rng" id="a6a-hz-wIQ"/>
+                        <outlet property="validMove" destination="hJg-Hh-LgH" id="3AF-ae-jzO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SKC-le-P2v" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -240,5 +270,6 @@
     </scenes>
     <resources>
         <image name="Board" width="342" height="342"/>
+        <image name="WhitePiece" width="75" height="75"/>
     </resources>
 </document>
