@@ -155,6 +155,7 @@ class GameController {
                 return // Wait for Human turn
             } else {
                 aiMove() // AI plays
+                print("playerScore: \(gameModel.currentPlayer.playerScore)")
             }
         } else { // player must pass
             gameView.showGameInfo(3)
@@ -164,6 +165,7 @@ class GameController {
             gameModel.currentPlayer = gameModel.currentPlayer.opponent
             if gameModel.currentPlayer.name == "AI" {
                 aiMove() // Computer to Move
+                print("playerScore: \(gameModel.currentPlayer.playerScore)")
             }
             else // show moves for human player
             {

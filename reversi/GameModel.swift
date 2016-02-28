@@ -92,12 +92,14 @@ class GameModel: NSObject, GKGameModel {
         
         // 1. start with mobility bonus
         playerScore = player.mobilityCount*3
+        playerScore -= player.opponent.mobilityCount*3
+        
         // 2. Static board evaluation
         playerScore += evaluation(self.board, player: player)
         // 3. Adjust for number of Discs
         playerScore += numberOfDiscs(self.board,player.chip)
         playerScore -= numberOfDiscs(self.board,player.opponent.chip)
-        
+        player.playerScore = playerScore
         return playerScore
     }
     

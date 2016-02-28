@@ -20,7 +20,7 @@ class Player: NSObject, GKGameModelPlayer {
     var name: String
     
     var playerId: Int {return id}
-    
+    var playerScore: Int
     // keeps track of how many moves a player can make
     // the higher the count, the better for score evaluation
     private var mobility: Int = 0
@@ -39,7 +39,7 @@ class Player: NSObject, GKGameModelPlayer {
         } else {
             name = "Black"
         }
-        
+        playerScore = 0
         super.init()
     }
     
